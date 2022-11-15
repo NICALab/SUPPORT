@@ -13,7 +13,7 @@ class SUPPORT(nn.Module):
     """
     def __init__(self, in_channels, mid_channels=[16, 32, 64, 128, 256], depth=5,\
          blind_conv_channels=64, one_by_one_channels=[32, 16],\
-            last_layer_channels=[64, 32, 16], bs_size=3):
+            last_layer_channels=[64, 32, 16], bs_size=1):
         super(SUPPORT, self).__init__()
 
         # check arguments

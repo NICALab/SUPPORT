@@ -324,6 +324,20 @@ class frectalGUI(QMainWindow):
         self.Combo_cpu.addItem("GPU")
         self.Combo_cpu.activated[str].connect(self.set_cpugpu)
         Layout_model.addWidget(self.Combo_cpu, 1, 4, 1, 1)
+        
+        Layout_load_model = QGridLayout()
+        self.Label_custom_model = QLabel("Load custom model")
+        self.Label_custom_model.setMaximumWidth(250)
+        self.Label_custom_model.setStyleSheet("background-color: #FFFFFF; color: #444444")
+        Layout_load_model.addWidget(self.Label_custom_model, 0, 0, 1, 3)
+
+        browse_icon = QIcon("./src/GUI/icons/browse.png")
+        Button_browse_img = QPushButton()
+        Button_browse_img.setIcon(browse_icon)
+        Button_browse_img.clicked.connect(self.browse_model)
+        Layout_load_model.addWidget(Button_browse_img, 0, 3, 1, 1)
+
+        Layout_model.addLayout(Layout_load_model, 2, 0, 1, 5)
 
         Layout_upper_pathinfo.addLayout(Layout_model, 1, 0, 1, 1)
 
@@ -431,6 +445,7 @@ class frectalGUI(QMainWindow):
             self.Combo_cpu.setCurrentText("CPU")
         
         self.modelThr = None
+        self.custom_model = False
         self.set_model_path("1")
 
         self.Text_log.append(cuda_available)
@@ -490,10 +505,10 @@ class frectalGUI(QMainWindow):
     
     def update_model_info(self):
         device = "GPU" if self.cuda else "CPU"
+        custom_flag = "[CUSTOM MODEL, auto selecting bs_size] " if self.custom_model else ""
         self.Text_model_info.setText(
-                f"Blind spot size {self.bs_size} selected.\nModel path : {self.model_path}\n\nWill be run on {device}."
+                f"{custom_flag} Blind spot size {self.bs_size} selected.\nModel path : {self.model_path}\n\nWill be run on {device}."
             )
-
 
     def warning(self, message):
         QMessageBox.warning(self, "Warning", message)
@@ -616,6 +631,57 @@ class frectalGUI(QMainWindow):
         else:
             pass
             # self.Text_log.append("Enter integer for final index.")
+
+
+    def browse_model(self):
+        fname = QFileDialog.getOpenFileName(self, "(Load image) Open .pt or .pth file", "./")
+        if fname[0].split(".")[-1] not in ["pt", "pth"]:
+            self.warning("Select .pt or .pth file!")
+            return True
+        else:
+            try:
+                self.custom_model = True
+                self.Label_custom_model.setText(fname[0])
+                self.model_path = fname[0]
+                
+                state = torch.load(fname[0])
+                blind_conv_channels = state["blind_convs3x3.0.weight"].size(0)
+                out_conv0_channels = state["out_convs.0.weight"].size(1)
+
+                depth3, depth5 = 0, 0
+                for k in state:
+                    if "blind_convs3x3" in k:
+                        depth3 += 1
+                    if "blind_convs5x5" in k:
+                        depth5 += 1
+                depth3 = depth3 // 3
+                depth5 = depth5 // 3
+                
+                if (depth3 + depth5) == 2:
+                    self.Text_log.append(f"[Warning] Model ambiguity in loading custom model. Please check the model.")
+
+                if out_conv0_channels == 2 * blind_conv_channels:
+                    self.bs_size = 3
+                    self.Text_log.append(f"[Warning] Automatically set as bs_size = 3. Please check if it is right.")
+                
+                if out_conv0_channels == (depth3 + depth5) * blind_conv_channels:
+                    self.bs_size = 1
+                    self.Text_log.append(f"[Warning] Automatically set as bs_size = 1. Please check if it is right.")
+                
+                self.update_model_info()
+
+                self.modelThr = modelThread(self)
+                self.start_model_loading()
+                self.modelThr.finish_loading.connect(self.finish_model_loading)
+                self.modelThr.start()
+    
+            except:
+                self.Label_image.setText("[ERROR] Please check logs.")
+                self.img_path = None
+                self.Text_log.append(
+                    f"[ERROR]"
+                )
+
 
     def browse_img(self):
         fname = QFileDialog.getOpenFileName(self, "(Load image) Open .tif file", "./")
