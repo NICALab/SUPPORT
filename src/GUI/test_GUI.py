@@ -16,7 +16,7 @@ from PyQt5.QtWidgets import (
     QPushButton,
     QGridLayout,
     QWidget,
-    QComboBox,
+    QComboBox
 )
 import PyQt5.QtGui as QtGui
 from PyQt5.QtGui import QIcon, QPixmap, QColor
@@ -33,6 +33,34 @@ from src.utils.dataset_pyqt import DatasetSupport_test_stitch
 
 from model.SUPPORT import SUPPORT
 
+
+from PyQt5 import QtWidgets
+
+class QHSeperationLine(QtWidgets.QFrame):
+    '''
+    a horizontal seperation line\n
+    '''
+    def __init__(self):
+        super().__init__()
+        self.setMinimumWidth(1)
+        self.setFixedHeight(20)
+        self.setFrameShape(QtWidgets.QFrame.HLine)
+        self.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
+        return
+
+class QVSeperationLine(QtWidgets.QFrame):
+    '''
+    a vertical seperation line\n
+    '''
+    def __init__(self):
+        super().__init__()
+        self.setFixedWidth(20)
+        self.setMinimumHeight(1)
+        self.setFrameShape(QtWidgets.QFrame.VLine)
+        self.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.setSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
+        return
 
 def convert_nparray_to_QPixmap(img):
     _, _, ch = img.shape
@@ -324,6 +352,8 @@ class frectalGUI(QMainWindow):
         self.Combo_cpu.addItem("GPU")
         self.Combo_cpu.activated[str].connect(self.set_cpugpu)
         Layout_model.addWidget(self.Combo_cpu, 1, 4, 1, 1)
+
+        Layout_model.addWidget(QHSeperationLine(), 2, 0, 1, 5)
         
         Layout_load_model = QGridLayout()
         self.Label_custom_model = QLabel("Load custom model")
@@ -337,7 +367,7 @@ class frectalGUI(QMainWindow):
         Button_browse_img.clicked.connect(self.browse_model)
         Layout_load_model.addWidget(Button_browse_img, 0, 3, 1, 1)
 
-        Layout_model.addLayout(Layout_load_model, 2, 0, 1, 5)
+        Layout_model.addLayout(Layout_load_model, 3, 0, 1, 5)
 
         Layout_upper_pathinfo.addLayout(Layout_model, 1, 0, 1, 1)
 
@@ -428,7 +458,8 @@ class frectalGUI(QMainWindow):
         Layout_log.addWidget(self.Progressbar, 3, 4, 1, 3)
 
         Layout_total.addLayout(Layout_upper, 0, 0, 3, 1)
-        Layout_total.addLayout(Layout_log, 3, 0, 1, 1)
+        # Layout_total.addWidget(QHSeperationLine(), 3, 0, 1, 1)
+        Layout_total.addLayout(Layout_log, 4, 0, 1, 1)
 
         self.setCentralWidget(widget)
         self.setGeometry(100, 100, 1200, 800)
@@ -507,7 +538,7 @@ class frectalGUI(QMainWindow):
         device = "GPU" if self.cuda else "CPU"
         custom_flag = "[CUSTOM MODEL, auto selecting bs_size] " if self.custom_model else ""
         self.Text_model_info.setText(
-                f"{custom_flag} Blind spot size {self.bs_size} selected.\nModel path : {self.model_path}\n\nWill be run on {device}."
+                f"{custom_flag} Blind spot size {self.bs_size} selected.\nModel path : {self.model_path}\n\nWill be run on {device}.\n\n\nYou can use custom model rather than built-ins.\nUse browse button to select custom model."
             )
 
     def warning(self, message):
