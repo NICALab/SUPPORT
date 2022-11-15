@@ -1,5 +1,6 @@
 import os
 import sys
+sys.path.append(".")
 from turtle import update
 from PyQt5.QtWidgets import (
     QApplication,
@@ -28,7 +29,7 @@ from PIL import Image
 from PIL.ImageQt import ImageQt
 from tifffile import TiffFile
 import tifffile
-from src.utils.dataset_pyqt import DatasetFRECTAL_test_stitch
+from src.utils.dataset_pyqt import DatasetSupport_test_stitch
 
 from model.SUPPORT import SUPPORT
 
@@ -68,12 +69,16 @@ class modelThread(QThread):
                     last_layer_channels=[64, 32, 16],
                     bs_size=self.parent.bs_size,
                 )
+                
             if self._isRunning:
                 if self.parent.cuda:
                     model = model.cuda()
 
             if self._isRunning:
-                state = torch.load(self.parent.model_path)
+                if self.parent.cuda:
+                    state = torch.load(self.parent.model_path)
+                else:
+                    state = torch.load(self.parent.model_path, map_location="cpu")
 
             if self._isRunning:
                 model.load_state_dict(state)
@@ -165,7 +170,7 @@ class runThread(QThread):
                 w = 128 if self.parent.img_w > 128 else self.parent.img_w
                 h = 128 if self.parent.img_h > 128 else self.parent.img_h
 
-                testset = DatasetFRECTAL_test_stitch(
+                testset = DatasetSupport_test_stitch(
                     img_one_tensor.clone().detach(),
                     patch_size=[61, w, h],
                     patch_interval=[1, w // 2, h // 2],
@@ -275,7 +280,7 @@ class frectalGUI(QMainWindow):
         self.Label_image.setStyleSheet("background-color: #FFFFFF; color: #444444")
         Layout_image_path.addWidget(self.Label_image, 0, 0, 1, 3)
 
-        browse_icon = QIcon("./icon/browse.png")
+        browse_icon = QIcon("./src/GUI/icons/browse.png")
         Button_browse_img = QPushButton()
         Button_browse_img.setIcon(browse_icon)
         Button_browse_img.clicked.connect(self.browse_img)
@@ -388,7 +393,7 @@ class frectalGUI(QMainWindow):
         Layout_log.addWidget(self.Text_log, 1, 0, 3, 1)
 
         self.Button_run = QPushButton("Run")
-        run_icon = QIcon("./icon/play.png")
+        run_icon = QIcon("./src/GUI/icons/play.png")
         self.Button_run.setIcon(run_icon)
         self.Button_run.setIconSize(QSize(20, 20))
         self.Button_run.clicked.connect(self.run_FRECTAL)
@@ -396,7 +401,7 @@ class frectalGUI(QMainWindow):
         Layout_log.addWidget(self.Button_run, 1, 4, 1, 3)
 
         self.Button_stop = QPushButton("Stop")
-        run_icon = QIcon("./icon/stop.png")
+        run_icon = QIcon("./src/GUI/icons/stop.png")
         self.Button_stop.setIcon(run_icon)
         self.Button_stop.setIconSize(QSize(20, 20))
         self.Button_stop.clicked.connect(self.stop_FRECTAL)
@@ -408,16 +413,13 @@ class frectalGUI(QMainWindow):
         self.Progressbar.setValue(0)
         Layout_log.addWidget(self.Progressbar, 3, 4, 1, 3)
 
-        # self.Text_background_info = QLabel()
-        # Layout_log.addWidget(self.Text_background_info, 4, 0, 1, 1)
-
         Layout_total.addLayout(Layout_upper, 0, 0, 3, 1)
         Layout_total.addLayout(Layout_log, 3, 0, 1, 1)
 
         self.setCentralWidget(widget)
         self.setGeometry(100, 100, 1200, 800)
 
-        self.setWindowIcon(QIcon("./icon/NICALab.png"))
+        self.setWindowIcon(QIcon("./src/GUI/icons/NICALab.png"))
 
         if torch.cuda.is_available():
             self.cuda = True
@@ -437,14 +439,8 @@ class frectalGUI(QMainWindow):
 
         self.model = None
         self.img_path = None
-        # self.model_path = None
         self.save_header = None
         self.thread = None
-
-        # self.modelThr = modelThread(self)
-        # self.start_model_loading()
-        # self.modelThr.finish_loading.connect(self.finish_model_loading)
-        # self.modelThr.start()
 
     def start_model_loading(self):
         self.model_loaded = False
@@ -457,9 +453,14 @@ class frectalGUI(QMainWindow):
         if str == "CPU":
             self.cuda = False
             self.Text_log.append("Selected CPU mode.")
+            if self.model is not None:
+                self.model = self.model.cpu()
+            torch.cuda.empty_cache()
         elif str == "GPU":
             self.cuda = True
             self.Text_log.append("Selected GPU mode.")
+            if self.model is not None:
+                self.model = self.model.cuda()
         self.update_model_info()
 
     def stop_FRECTAL(self):
@@ -468,28 +469,18 @@ class frectalGUI(QMainWindow):
             self.onFinished()
 
     def set_model_path(self, str):
-        # device = "GPU" if self.cuda else "CPU"
         if self.modelThr is not None:
             self.modelThr.stop()
 
         if str == "1":
             self.model_path = "./src/GUI/trained_models/bs1.pth"
             self.bs_size = 1
-            # self.Text_model_info.setText(
-            #     f"Blind spot size 1 selected.\nModel path : {self.model_path}\n\nWill be run on {device}."
-            # )
         elif str == "3":
             self.model_path = "./src/GUI/trained_models/bs3.pth"
             self.bs_size = 3
-            # self.Text_model_info.setText(
-            #     f"Blind spot size 3 selected.\nModel path : {self.model_path}\n\nWill be run on {device}."
-            # )
         elif str == "5":
             self.model_path = None
             self.bs_size = 5
-            # self.Text_model_info.setText(
-            #     f"Blind spot size 5 selected.\nModel path : {self.model_path}\n\nWill be run on {device}."
-            # )
         self.update_model_info()
         
         self.modelThr = modelThread(self)
@@ -515,11 +506,6 @@ class frectalGUI(QMainWindow):
         # https://stackoverflow.com/questions/65276136/disable-elements-when-running-qthread-with-pyside-pyqt
         self.Button_run.setEnabled(False)
         self.Button_stop.setEnabled(True)
-
-        # if self.model is None:
-        #     self.warning("there is no model.")
-        #     self.onFinished()
-        #     return True
 
         if self.img_path is None:
             self.warning("there is no image.")

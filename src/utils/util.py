@@ -72,9 +72,9 @@ def get_coordinate(img_size, patch_size, patch_interval):
     cut_h = (img_h - gap_h)/2
     cut_s = (img_s - gap_s)/2
 
-    print(whole_s, whole_h, whole_w)
-    print(img_s, img_h, img_w)
-    print(gap_s, gap_h, gap_w)
+    # print(whole_s, whole_h, whole_w)
+    # print(img_s, img_h, img_w)
+    # print(gap_s, gap_h, gap_w)
 
     num_w = math.ceil((whole_w-img_w+gap_w)/gap_w)
     num_h = math.ceil((whole_h-img_h+gap_h)/gap_h)

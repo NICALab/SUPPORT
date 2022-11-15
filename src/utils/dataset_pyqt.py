@@ -80,7 +80,7 @@ class DatasetSupport_test_stitch(Dataset):
     def __len__(self):
         return len(
             self.indices
-        )  # len(self.indices[0]) * len(self.indices[1]) * len(self.indices[2])
+        )
 
     def __getitem__(self, i):
         # slicing
