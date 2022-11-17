@@ -12,5 +12,8 @@ python -m src.train --exp_name mytest --noisy_data mydata.tif
 
 ## Getting Started (GUI)
 
+## Download Dataset
+Dataset for volumetric structured imaging of *penicillium* and calcium imaging of larval zebrafish can be downloaded from [Zenodo](https://doi.org/10.5281/zenodo.7330257).
+
 ## Citation
 TODO
