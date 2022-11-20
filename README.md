@@ -7,7 +7,7 @@ Here we present SUPPORT (**S**tatistically **U**nbiased **P**rediction utilizing
 
 We also show that SUPPORT can be used for denoising **time-lapse fluorescence microscopy images** of Caenorhabditis elegans (C. elegans), in which the imaging speed is not faster than the locomotion of the worm, as well as **static volumetric images** of Penicillium and mouse embryos. SUPPORT is exceptionally compelling for denoising voltage imaging and time-lapse imaging data, and is even effective for denoising **calcium imaging data**.
 
-For more details, please see the accompanying research publication "Statistically unbiased prediction enables accurate denoising of voltage imaging data".
+For more details, please see the accompanying research publication "[Statistically unbiased prediction enables accurate denoising of voltage imaging data](https://www.biorxiv.org/content/10.1101/2022.11.17.516709v1)".
 
 ## Installation
 1. Clone the repository
@@ -74,4 +74,17 @@ Please contact to following authors to get in touch!
 * Seungjae Han (jay0118@kaist.ac.kr)
 
 ## Citation
-Eom, M. et al. Statistically unbiased prediction enables accurate denoising of voltage imaging data. Preprint at *bioRxiv* (2022).
+Eom, M. et al. [Statistically unbiased prediction enables accurate denoising of voltage imaging data.](https://www.biorxiv.org/content/10.1101/2022.11.17.516709v1) Preprint at *bioRxiv* (2022).
+```
+@article {Eom2022SUPPORT,
+	author = {Eom, Minho and Han, Seungjae and Kim, Gyuri and Cho, Eun-Seo and Sim, Jueun and Park, Pojeong and Lee, Kang-Han and Kim, Seonghoon and Rozsa, Marton and Svoboda, Karel and Choi, Myunghwan and Kim, Cheol-Hee and Cohen, Adam and Chang, Jae-Byum and Yoon, Young-Gyu},
+	title = {Statistically unbiased prediction enables accurate denoising of voltage imaging data},
+	elocation-id = {2022.11.17.516709},
+	year = {2022},
+	doi = {10.1101/2022.11.17.516709},
+	publisher = {Cold Spring Harbor Laboratory},
+	URL = {https://www.biorxiv.org/content/early/2022/11/18/2022.11.17.516709},
+	eprint = {https://www.biorxiv.org/content/early/2022/11/18/2022.11.17.516709.full.pdf},
+	journal = {bioRxiv}
+}
+```
