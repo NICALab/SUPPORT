@@ -30,24 +30,39 @@ conda env create -f env.yml
 conda activate SUPPORT
 ```
 
+5. Install Pytorch with **the version compatible with your OS and platform** from https://pytorch.org/get-started/locally/
+```
+conda install pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia
+```
+
 ## Getting Started (GUI)
-1. Denoise the data with pretrained networks.
+**1. Denoise the data with pretrained networks**
 ```
 python -m src.GUI.test_GUI
 ```
 As the network is trained on different dataset of denoising,
 for optimal performance, one might have to train the network.
 
-2. Train the network
+**2. Train the network**
 
 Will be updated soon.
 
 ## Getting Started (code)
-Train SUPPORT with minimal options.
+**1. Train SUPPORT**
 ```
-python -m src.train --exp_name mytest --noisy_data mydata.tif
+python -m src.train --exp_name mytest --noisy_data ./data/sample_data.tif
 ```
-Please refer to the code documentation for more options.
+For more options, please refer to the manual through the following code.
+```
+python -m src.train --help
+```
+
+**2. Inferece with SUPPORT**
+
+Edit src/test.py file to change the name of the dataset, and run the following code.
+```
+python -m src.test
+```
 
 ## Data availability
 Dataset for volumetric structured imaging of *penicillium* and calcium imaging of larval zebrafish can be downloaded from [Zenodo](https://doi.org/10.5281/zenodo.7330257).
