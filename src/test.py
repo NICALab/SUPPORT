@@ -54,11 +54,14 @@ def validate(test_dataloader, model):
 
 
 if __name__ == '__main__':
-    data_file = "/media/HDD3/FRECTAL_WholeExM/JEME209_2x_expanded_tail.tif"
-    model_file = "/media/HDD2/DeepVID/results/saved_models/FRECTAL_20221111_wholeExM_209_tail_bs1/model_100.pth"
-    output_file = "/media/HDD2/DeepVID/results/images/FRECTAL_20221111_wholeExM_209_tail_bs1/denoised_100.tif"
+    ########## Change it with your data ##############
+    data_file = "./data/sample_data.tif"
+    model_file = "./results/saved_models/mytest/model_0.pth"
+    output_file = "./results/images/mytest/denoised_0.tif"
     patch_size = [61, 128, 128]
     patch_interval = [1, 64, 64]
+    batch_size = 128    # lower it if memory exceeds.
+    ##################################################
 
     model = SUPPORT(in_channels=61, mid_channels=[16, 32, 64, 128, 256], depth=5,\
             blind_conv_channels=64, one_by_one_channels=[32, 16], last_layer_channels=[64, 32, 16], bs_size=3).cuda()
@@ -68,11 +71,10 @@ if __name__ == '__main__':
     demo_tif = torch.from_numpy(skio.imread(data_file).astype(np.float32)).type(torch.FloatTensor)
     demo_tif = demo_tif[:, :, :]
 
-    testset = DatasetSUPPORT_test_stitch(demo_tif, clean_image=None, patch_size=patch_size,\
+    testset = DatasetSUPPORT_test_stitch(demo_tif, patch_size=patch_size,\
         patch_interval=patch_interval)
-    testloader = torch.utils.data.DataLoader(testset, batch_size=128)
+    testloader = torch.utils.data.DataLoader(testset, batch_size=batch_size)
     denoised_stack = validate(testloader, model)
 
     print(denoised_stack.shape)
-    skio.imsave(output_file, denoised_stack)
-    import pdb; pdb.set_trace()
+    skio.imsave(output_file, denoised_stack[(model.in_channels-1)//2:-(model.in_channels-1)//2, : , :])

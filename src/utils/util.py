@@ -11,7 +11,7 @@ def parse_arguments():
     parser.add_argument("--epoch", type=int, default=0, help="epoch to start training from (need epoch-1 model)")
     parser.add_argument("--n_epochs", type=int, default=500, help="number of epochs of training")
     parser.add_argument("--exp_name", type=str, default="myEXP", help="name of the experiment")
-    parser.add_argument("--results_dir", type=str, default="~/SUPPORT/results", help="root directory to save results")
+    parser.add_argument("--results_dir", type=str, default="./results", help="root directory to save results")
     parser.add_argument("--input_frames", type=int, default=61, help="# of input frames")
     # parser.add_argument("--cuda_device", type=int, default=[0], nargs="+", help="cuda devices to use")
 
@@ -19,7 +19,7 @@ def parse_arguments():
     parser.add_argument("--is_folder", action="store_true", help="noisy_data is folder")
     parser.add_argument("--noisy_data", type=str, nargs="+", help="List of path to the noisy data")
     parser.add_argument("--patch_size", type=int, default=[61, 128, 128], nargs="+", help="size of the patches")
-    parser.add_argument("--patch_interval", type=int, default=[10, 64, 64], nargs="+", help="size of the patch interval")
+    parser.add_argument("--patch_interval", type=int, default=[1, 64, 64], nargs="+", help="size of the patch interval")
     parser.add_argument("--batch_size", type=int, default=16, help="size of the batches")
 
     # model
@@ -39,9 +39,9 @@ def parse_arguments():
     parser.add_argument("--n_cpu", type=int, default=8, help="number of cpu threads to use during batch generation")
     parser.add_argument("--logging_interval_batch", type=int, default=50, help="interval between logging info (in batches)")
     parser.add_argument("--logging_interval", type=int, default=1, help="interval between logging info (in epochs)")
-    parser.add_argument("--sample_interval", type=int, default=1, help="interval between saving generator samples")
+    parser.add_argument("--sample_interval", type=int, default=10, help="interval between saving denoised samples")
     parser.add_argument("--sample_max_t", type=int, default=600, help="maximum time step of saving sample")
-    parser.add_argument("--checkpoint_interval", type=int, default=1, help="interval between model checkpoints (in epochs)")
+    parser.add_argument("--checkpoint_interval", type=int, default=1, help="interval between saving trained models (in epochs)")
     opt = parser.parse_args()
 
     # argument checking

@@ -4,6 +4,7 @@ import logging
 import time
 import numpy as np
 import torch
+import skimage.io as skio
 
 from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
@@ -150,5 +151,5 @@ if __name__=="__main__":
             torch.save(optimizer.state_dict(), opt.results_dir + "/saved_models/%s/optimizer_%d.pth" % (opt.exp_name, epoch))
 
         # if (epoch % opt.sample_interval == 0):
-        #     skio.imsave()
+        #     skio.imsave(opt.results_dir + "/images/%s/denoised_%d.pth" % (opt.exp_name, epoch), )
             
