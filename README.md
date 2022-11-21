@@ -24,6 +24,9 @@ We tested on the following systems:
 - Ubuntu 18.04
 
 ## Installation
+
+It could vary on your network speed, but installation took less than an hour in our side.
+
 1. Clone the repository
 ```
 git clone git@github.com:NICALab/SUPPORT.git
