@@ -22,10 +22,13 @@ Starting with (Code) or running `train_GUI` require GPU with enough VRAM.
 We tested on the following systems:
 
 - Ubuntu 18.04
+- Python 3.9
+- Pytorch 1.13.0
+- CUDA 11.7
 
 ## Installation
 
-It could vary on your network speed, but installation took less than an hour in our side.
+It could vary on your network speed, but the installation generally took less than 20 minutes.
 
 1. Clone the repository
 ```
@@ -60,7 +63,7 @@ python -m src.GUI.test_GUI
 As the network is trained on different dataset of denoising,
 for optimal performance, one might have to train the network.
 
-For denoising data with size fo (128, 128, 1200), it took about 30 seconds with one RTX 2080 Ti GPU.
+For denoising data with size of (128, 128, 1200), it took about 30 seconds with one RTX 2080 Ti GPU.
 
 **2. Train the network**
 
@@ -69,8 +72,10 @@ Will be updated soon.
 ## Getting Started (code)
 **1. Train SUPPORT**
 ```
-python -m src.train --exp_name mytest --noisy_data ./data/sample_data.tif
+python -m src.train --exp_name mytest --noisy_data ./data/sample_data.tif --n_epochs 11 --checkpoint_interval 10
 ```
+It will train a network using the sample data (For faster demo, the above code trains the network only for few iterations with small data).
+
 For more options, please refer to the manual through the following code.
 ```
 python -m src.train --help
@@ -78,10 +83,19 @@ python -m src.train --help
 
 **2. Inferece with SUPPORT**
 
-Edit src/test.py file to change the name of the dataset, and run the following code.
+After training the network, the trained model will be saved on `results/saved_models/mytest/model_X.pth`, where X is the epoch of training.
+
 ```
 python -m src.test
 ```
+
+It will save the denoised file on `results/images/mytest/denoised_X.tif`.
+
+<div align="center"><img src="data/sample_data.png" width="20%"/><img src="data/denoised_10.png" width="20%"/></div>
+
+Edit `src/test.py` file to change the path to infer with your own data and models.
+
+
 
 ## Data availability
 Dataset for volumetric structured imaging of *penicillium* and calcium imaging of larval zebrafish can be downloaded from [Zenodo](https://doi.org/10.5281/zenodo.7330257).
