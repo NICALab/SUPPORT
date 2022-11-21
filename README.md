@@ -9,6 +9,19 @@ We also show that SUPPORT can be used for denoising **time-lapse fluorescence mi
 
 For more details, please see the accompanying research publication "[Statistically unbiased prediction enables accurate denoising of voltage imaging data](https://www.biorxiv.org/content/10.1101/2022.11.17.516709v1)".
 
+## System Requirements
+
+### Hardware Requirements
+
+`test_GUI` is designed to be run on a standard computer without large RAM. If the GPU is available, denoising process could be accelerated.
+Starting with (Code) or running `train_GUI` require GPU with enough VRAM.
+
+### Software Requirements
+
+We tested on the following systems:
+
+- Ubuntu 18.04
+
 ## Installation
 1. Clone the repository
 ```
