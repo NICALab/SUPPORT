@@ -284,13 +284,13 @@ class runThread(QThread):
         self.wait(1000)
 
 
-class frectalGUI(QMainWindow):
+class SUPPORTGUI(QMainWindow):
     def __init__(self):
         super().__init__()
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle("FRECTAL denoise")
+        self.setWindowTitle("SUPPORT denoise")
         # Create an outer layout
         widget = QWidget()
         widget.setStyleSheet("background-color: #ECECEC;")
@@ -440,7 +440,7 @@ class frectalGUI(QMainWindow):
         run_icon = QIcon("./src/GUI/icons/play.png")
         self.Button_run.setIcon(run_icon)
         self.Button_run.setIconSize(QSize(20, 20))
-        self.Button_run.clicked.connect(self.run_FRECTAL)
+        self.Button_run.clicked.connect(self.run_SUPPORT)
 
         Layout_log.addWidget(self.Button_run, 1, 4, 1, 3)
 
@@ -448,7 +448,7 @@ class frectalGUI(QMainWindow):
         run_icon = QIcon("./src/GUI/icons/stop.png")
         self.Button_stop.setIcon(run_icon)
         self.Button_stop.setIconSize(QSize(20, 20))
-        self.Button_stop.clicked.connect(self.stop_FRECTAL)
+        self.Button_stop.clicked.connect(self.stop_SUPPORT)
         self.Button_stop.setEnabled(False)
         Layout_log.addWidget(self.Button_stop, 2, 4, 1, 3)
 
@@ -509,7 +509,7 @@ class frectalGUI(QMainWindow):
                 self.model = self.model.cuda()
         self.update_model_info()
 
-    def stop_FRECTAL(self):
+    def stop_SUPPORT(self):
         if self.thread is not None:
             self.thread.stop()
             self.onFinished()
@@ -548,7 +548,7 @@ class frectalGUI(QMainWindow):
         self.Button_run.setEnabled(True)
         self.Button_stop.setEnabled(False)
 
-    def run_FRECTAL(self):
+    def run_SUPPORT(self):
         # https://stackoverflow.com/questions/65276136/disable-elements-when-running-qthread-with-pyside-pyqt
         self.Button_run.setEnabled(False)
         self.Button_stop.setEnabled(True)
@@ -645,6 +645,9 @@ class frectalGUI(QMainWindow):
         # if os.path.isdir(fname):
         #     pass
         self.save_header = fname
+        self.savepath_path.setText(
+                f"{self.save_header}/YYYYMMDD_HHMMSS/denoised.tif"
+            )
         self.Text_save.setText(
             f"Save as : {self.save_header}/YYYYMMDD_HHMMSS/denoised.tif"
         )
@@ -763,7 +766,7 @@ class frectalGUI(QMainWindow):
                 pass
 
             self.save_header = "/".join(fname[0].split("/")[:-1])
-            self.save_header += "/FRECTAL"
+            self.save_header += "/SUPPORT"
             os.makedirs(f"{self.save_header}", exist_ok=True)
             self.Text_log.append(
                 f"Default saving directory created : {self.save_header}"
@@ -773,7 +776,7 @@ class frectalGUI(QMainWindow):
             )
             self.Text_save.setTextColor(QColor(255, 0, 0))
             self.Text_save.append(
-                "\n\nWARNING : First 30 and last 30 denoised slices may not accurate result.\nRefer github.com/FRECTAL/issues/X."
+                "\n\nWARNING : First 30 and last 30 denoised slices may not accurate result.\nRefer github.com/SUPPORT/issues/X."
             )
             self.Text_save.setTextColor(QColor(0, 0, 0))
 
@@ -786,5 +789,5 @@ class frectalGUI(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    ex = frectalGUI()
+    ex = SUPPORTGUI()
     sys.exit(app.exec_())
