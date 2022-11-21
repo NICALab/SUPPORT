@@ -57,6 +57,8 @@ python -m src.GUI.test_GUI
 As the network is trained on different dataset of denoising,
 for optimal performance, one might have to train the network.
 
+For denoising data with size fo (128, 128, 1200), it took about 30 seconds with one RTX 2080 Ti GPU.
+
 **2. Train the network**
 
 Will be updated soon.
