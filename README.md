@@ -14,6 +14,7 @@ For more details, please see the accompanying research publication "[Statistical
 ### Hardware Requirements
 
 `test_GUI` is designed to be run on a standard computer without large RAM. If the GPU is available, denoising process could be accelerated.
+
 Starting with (Code) or running `train_GUI` require GPU with enough VRAM.
 
 ### Software Requirements
