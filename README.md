@@ -2,7 +2,7 @@
 
 <div align="center"><img src="thumbnail.png" width="80%"/></div>
 
-<h3 align="center"><a href="https://nicalab.github.io/SUPPORT/">Project page</a> / <a href="https://www.biorxiv.org/content/10.1101/2022.11.17.516709v1">Paper</a> / <a href="https://zenodo.org/record/7330257#.Y3mv_HZByp0">Data</a>
+<h3 align="center"><a href="https://nicalab.github.io/SUPPORT/" target="_blank">Project page</a> / <a href="https://www.biorxiv.org/content/10.1101/2022.11.17.516709v1" target="_blank">Paper</a> / <a href="https://doi.org/10.5281/zenodo.7330257" target="_blank">Data</a>
 
 ## About SUPPORT
 Here we present SUPPORT (**S**tatistically **U**nbiased **P**rediction utilizing s**P**ati**O**tempo**R**al information in imaging da**T**a), **a self-supervised denoising method** for **voltage imaging data**. SUPPORT is based on the insight that a pixel value in voltage imaging data is highly dependent on its spatially neighboring pixels in the same time frame even when its temporally adjacent frames do not provide useful information for statistical prediction. Such spatiotemporal dependency is captured and utilized to accurately denoise voltage imaging data in which the existence of the action potential in a time frame cannot be inferred by the information in other frames. We show, through simulation and experiments, that SUPPORT enables precise denoising of voltage imaging data while preserving the underlying dynamics in the scene. 
