@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Statistically unbiased prediction enables accurate denoising of voltage imaging data</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <base href="/"> -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
+    <link rel="stylesheet" href="css/app.css">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-110862391-1');
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.3/clipboard.min.js"></script>
+
+    <script src="js/app.js"></script>
+</head>
+
+<body>
+    <div class="container" id="main">
+        <div class="row">
+            <h2 class="col-md-12 text-center">
+                Statistically unbiased prediction <br>
+                enables accurate denoising of voltage imaging data <br>
+                <small>
+                    bioRxiv
+                </small>
+            </h2>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <ul class="list-inline">
+                    <li>
+                        <a href="https://www.minhoeom.com/">
+                            Minho Eom*
+                        </a>
+                        </br>KAIST
+                    </li>
+                    <li>
+                        <a href="https://stevejayh.github.io/">
+                            Seungjae Han*
+                        </a>
+                        </br>KAIST
+                    </li>
+                    <li>
+                        <a href="https://nica.kaist.ac.kr/people">
+                            Gyuri Kim
+                        </a>
+                        </br>KAIST
+                    </li>
+                    <li>
+                        <a href="https://sites.google.com/view/eunseocho/main">
+                            Eun-Seo Cho
+                        </a>
+                        </br>KAIST
+                    </li>
+                    <li>
+                        <a href="https://sites.google.com/site/jbchang03/members">
+                            Pojeong Park
+                        </a>
+                        </br>Harvard
+                    </li>
+                    <br>
+                    <li>
+                        <a href="https://scholar.google.com/citations?user=lvA86MYAAAAJ&hl=en">
+                            Kang-Han Lee
+                        </a>
+                        </br>Chungnam National University
+                    </li>
+                    <li>
+                        <a href="http://cseweb.ucsd.edu/~ravir/">
+                            Seonghoon Kim
+                        </a>
+                        </br>Seoul National University
+                    </li>
+                    <li>
+                        <a href="https://jonbarron.info/">
+                            Márton Rózsa
+                        </a>
+                        </br>Allen Institute
+                    </li>
+                    <li>
+                        <a href="https://www2.eecs.berkeley.edu/Faculty/Homepages/yirenng.html">
+                            Karel Svoboda
+                        </a>
+                        </br>Allen Institute
+                    </li>
+                    <br>
+                    <li>
+                        <a href="https://scholar.google.com/citations?user=lvA86MYAAAAJ&hl=en">
+                            Myunghwan Choi
+                        </a>
+                        </br>Seoul National University
+                    </li>
+                    <li>
+                        <a href="http://cseweb.ucsd.edu/~ravir/">
+                            Cheol-Hee Kim
+                        </a>
+                        </br>Chungnam National University
+                    </li>
+                    <li>
+                        <a href="https://jonbarron.info/">
+                            Adam E. Cohen
+                        </a>
+                        </br>Harvard
+                    </li>
+                    <li>
+                        <a href="https://www2.eecs.berkeley.edu/Faculty/Homepages/yirenng.html">
+                            Jae-Byum Chang
+                        </a>
+                        </br>KAIST
+                    </li>
+                    <li>
+                        <a href="https://www2.eecs.berkeley.edu/Faculty/Homepages/yirenng.html">
+                            Young-Gyu Yoon
+                        </a>
+                        </br>KAIST
+                    </li>
+                </ul>
+                *denotes equal contribution
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4 text-center">
+                <ul class="nav nav-pills nav-justified">
+                    <li>
+                        <a href="https://www.biorxiv.org/content/10.1101/2022.11.17.516709v1.full.pdf+html">
+                            <h4><strong>Paper</strong></h4>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/NICALab/SUPPORT">
+                            <h4><strong>Code</strong></h4>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Abstract
+                </h3>
+                <image src="../thumbnail.png" class="img-responsive" alt="thumbnail"><br>
+                    <p class="text-justify">
+                        Here we report SUPPORT (Statistically Unbiased Prediction utilizing sPatiOtempoRal information
+                        in imaging daTa),
+                        a self-supervised learning method for removing Poisson-Gaussian noise in voltage imaging data.
+                        SUPPORT is based
+                        on the insight that a pixel value in voltage imaging data is highly dependent on its spatially
+                        neighboring pixels in the
+                        same time frame, even when its temporally adjacent frames do not provide useful information for
+                        statistical prediction.
+                        Such spatiotemporal dependency is captured and utilized to accurately denoise voltage imaging
+                        data in which the
+                        existence of the action potential in a time frame cannot be inferred by the information in other
+                        frames. Through
+                        simulation and experiments, we show that SUPPORT enables precise denoising of voltage imaging
+                        data while
+                        preserving the underlying dynamics in the scene.
+                    </p>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Citation
+                </h3>
+                <div class="form-group col-md-10 col-md-offset-1">
+                    <textarea id="bibtex" class="form-control" rows="10" readonly>
+@article {Eom2022SUPPORT,
+    author = {Eom, Minho and Han, Seungjae and Kim, Gyuri and Cho, Eun-Seo and Sim, Jueun and Park, Pojeong and Lee, Kang-Han and Kim, Seonghoon and Rozsa, Marton and Svoboda, Karel and Choi, Myunghwan and Kim, Cheol-Hee and Cohen, Adam and Chang, Jae-Byum and Yoon, Young-Gyu},
+    title = {Statistically unbiased prediction enables accurate denoising of voltage imaging data},
+    elocation-id = {2022.11.17.516709},
+    year = {2022},
+    doi = {10.1101/2022.11.17.516709},
+    publisher = {Cold Spring Harbor Laboratory},
+    URL = {https://www.biorxiv.org/content/early/2022/11/18/2022.11.17.516709},
+    eprint = {https://www.biorxiv.org/content/early/2022/11/18/2022.11.17.516709.full.pdf},
+    journal = {bioRxiv}
+}</textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <p class="text-justify">
+                    The website template was borrowed from <a href="http://mgharbi.com/">Michaël Gharbi</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
