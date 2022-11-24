@@ -1,8 +1,21 @@
-# SUPPORT: statistically unbiased prediction enables accurate denoising of voltage imaging data
+<p align="center">
+  <a href="http://nestjs.com/" target="blank"><img src="https://github.com/NICALab/SUPPORT/blob/main/logo-1.png" width="120" alt="SUPPORT Logo" /></a>
+</p>
 
-<div align="center"><img src="thumbnail.png" width="80%"/></div>
+  <h3 align="center">SUPPORT, a self-supervised denoising method for voltage imaging data. </h3>
 
-<h3 align="center"><a href="https://nicalab.github.io/SUPPORT/" target="_blank">Project page</a> / <a href="https://www.biorxiv.org/content/10.1101/2022.11.17.516709v1" target="_blank">Paper</a> / <a href="https://doi.org/10.5281/zenodo.7330257" target="_blank">Data</a>
+<p align="center">
+<img alt="GitHub" src="https://img.shields.io/github/license/NICALab/SUPPORT">
+<img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/NICALab/SUPPORT">
+<img alt="GitHub issues" src="https://img.shields.io/github/issues/NICALab/SUPPORT">
+<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/NICALab/SUPPORT?style=social">
+</p>
+
+<p align="center"><a href="https://nicalab.github.io/SUPPORT/" target="_blank">Project page</a> | <a href="https://www.biorxiv.org/content/10.1101/2022.11.17.516709v1" target="_blank">Paper</a> | <a href="https://doi.org/10.5281/zenodo.7330257" target="_blank">Data</a>
+
+
+<p align="center"><img src="thumbnail.png" width="80%"/></p>
+
 
 ## About SUPPORT
 Here we present SUPPORT (**S**tatistically **U**nbiased **P**rediction utilizing s**P**ati**O**tempo**R**al information in imaging da**T**a), **a self-supervised denoising method** for **voltage imaging data**. SUPPORT is based on the insight that a pixel value in voltage imaging data is highly dependent on its spatially neighboring pixels in the same time frame even when its temporally adjacent frames do not provide useful information for statistical prediction. Such spatiotemporal dependency is captured and utilized to accurately denoise voltage imaging data in which the existence of the action potential in a time frame cannot be inferred by the information in other frames. We show, through simulation and experiments, that SUPPORT enables precise denoising of voltage imaging data while preserving the underlying dynamics in the scene. 
