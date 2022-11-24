@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="https://github.com/NICALab/SUPPORT/blob/main/logo-1.png" width="120" alt="SUPPORT Logo" />
+<img src="https://github.com/NICALab/SUPPORT/blob/main/logo-1.png" width="120" alt="SUPPORT Logo">
 </p>
 
-  <h3 align="center">SUPPORT, a self-supervised denoising method for voltage imaging data. </h3>
+<h3 align="center">SUPPORT, a self-supervised denoising method for voltage imaging data.</h3>
 
 <p align="center">
 <img alt="GitHub" src="https://img.shields.io/github/license/NICALab/SUPPORT">
@@ -12,10 +12,16 @@
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/NICALab/SUPPORT?style=social">
 </p>
 
-<p align="center"><a href="https://nicalab.github.io/SUPPORT/" target="_blank">Project page</a> | <a href="https://www.biorxiv.org/content/10.1101/2022.11.17.516709v1" target="_blank">Paper</a> | <a href="https://doi.org/10.5281/zenodo.7330257" target="_blank">Data</a>
+<p align="center">
+<a href="https://nicalab.github.io/SUPPORT/" target="_blank">Project page</a> | 
+<a href="https://www.biorxiv.org/content/10.1101/2022.11.17.516709v1" target="_blank">Paper</a> | 
+<a href="https://doi.org/10.5281/zenodo.7330257" target="_blank">Data</a>
+</p>
 
 
-<p align="center"><img src="thumbnail.png" width="80%"/></p>
+<p align="center">
+<img src="thumbnail.png" width="80%"/>
+</p>
 
 
 ## About SUPPORT
