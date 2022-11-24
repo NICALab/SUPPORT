@@ -7,8 +7,8 @@
 <p align="center">
 <img alt="GitHub" src="https://img.shields.io/github/license/NICALab/SUPPORT">
 <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/NICALab/SUPPORT">
+<a href="https://gitter.im/SUPPORT_/community"> <img alt="gitter" src="https://badges.gitter.im/SUPPORT_/community.svg"> </a>
 <img alt="GitHub issues" src="https://img.shields.io/github/issues/NICALab/SUPPORT">
-[![Join the chat at https://gitter.im/SUPPORT_/community](https://badges.gitter.im/SUPPORT_/community.svg)](https://gitter.im/SUPPORT_/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/NICALab/SUPPORT?style=social">
 </p>
 
