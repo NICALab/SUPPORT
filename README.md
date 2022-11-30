@@ -32,6 +32,12 @@ We also show that SUPPORT can be used for denoising **time-lapse fluorescence mi
 
 For more details, please see the accompanying research publication "[Statistically unbiased prediction enables accurate denoising of voltage imaging data](https://www.biorxiv.org/content/10.1101/2022.11.17.516709v1)".
 
+
+:raised_hands: If you have any trouble running the code or have any questions, do not hesitate to make an issue.
+
+:revolving_hearts: We are ready to help you and look forward to make this tool widely used! Also, check the FAQ below can answer your question!
+
+
 ## System Requirements
 
 ### Hardware Requirements
@@ -89,8 +95,14 @@ for optimal performance, one might have to train the network.
 For denoising data with size of (128, 128, 1200), it took about 30 seconds with one RTX 2080 Ti GPU.
 
 **2. Train the network**
+```
+python -m src.GUI.train_GUI
+```
+Choose the folder that contains training data, and then select the blind spot size. After training is done, you can browse newly trained model and use it in train_GUI.
 
-Will be updated soon.
+Representative frame is visualized and updated as training progresses.
+
+Only supports training on GPU, and currently it requires more than 6.5GB GPU memory.
 
 ## Getting Started (code)
 **1. Train SUPPORT**
@@ -144,3 +156,20 @@ Eom, M. et al. [Statistically unbiased prediction enables accurate denoising of 
 	journal = {bioRxiv}
 }
 ```
+
+## FAQ
+**- Running with code**
+
+**Q:** Do I need to normalize the data for training and/or testing?
+
+**A:** No you don't have to. Our code will do normalization automatically.
+
+**Q:** Do I need to pad the data?
+
+**A:** You don't have to. The output will have the same dimension to the input data. However, as we are using past and future *N* frames to obtain denoised current frame, first and final *N* frames of the final output are not be obtained, and currently they will be filled uniformly with some value.
+
+**- About GUI**
+
+**Q:** I have a suggestion of UI/function/etc. for train/test GUI. or I found bugs/exception/error. What should I do?
+
+**A:** Make an issue so that we can handle it. If you are familiar to Pytorch and PyQt, pull request would be absolutely fine!
