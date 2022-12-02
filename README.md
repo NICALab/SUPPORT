@@ -166,7 +166,7 @@ Eom, M. et al. [Statistically unbiased prediction enables accurate denoising of 
 
 **Q:** Do I need to pad the data?
 
-**A:** You don't have to. The output will have the same dimension to the input data. However, as we are using past and future *N* frames to obtain denoised current frame, first and final *N* frames of the final output are not be obtained, and currently they will be filled uniformly with some value.
+**A:** You don't have to. The output will have the same dimension to the input data in x and y dimension. However, as we are using past and future *N* frames to obtain denoised current frame, first and final *N* frames of the final output are not be obtained and discarded.
 
 **- About GUI**
 
