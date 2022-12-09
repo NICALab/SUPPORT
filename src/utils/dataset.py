@@ -6,7 +6,7 @@ from torch.utils.data import Dataset, DataLoader
 from src.utils.util import get_coordinate
 
 
-def random_transform(input, target, rng):
+def random_transform(input, target, rng, is_rotate):
     """
     Randomly rotate/flip the image
 
@@ -22,18 +22,19 @@ def random_transform(input, target, rng):
     rand_num = rng.integers(0, 4) # random number for rotation
     rand_num_2 = rng.integers(0, 2) # random number for flip
 
-    if rand_num == 1:
-        input = torch.rot90(input, k=1, dims=(2, 3))
-        if target is not None:
-            target = torch.rot90(target, k=1, dims=(2, 3))
-    elif rand_num == 2:
-        input = torch.rot90(input, k=2, dims=(2, 3))
-        if target is not None:
-            target = torch.rot90(target, k=2, dims=(2, 3))
-    elif rand_num == 3:
-        input = torch.rot90(input, k=3, dims=(2, 3))
-        if target is not None:
-            target = torch.rot90(target, k=3, dims=(2, 3))
+    if is_rotate:
+        if rand_num == 1:
+            input = torch.rot90(input, k=1, dims=(2, 3))
+            if target is not None:
+                target = torch.rot90(target, k=1, dims=(2, 3))
+        elif rand_num == 2:
+            input = torch.rot90(input, k=2, dims=(2, 3))
+            if target is not None:
+                target = torch.rot90(target, k=2, dims=(2, 3))
+        elif rand_num == 3:
+            input = torch.rot90(input, k=3, dims=(2, 3))
+            if target is not None:
+                target = torch.rot90(target, k=3, dims=(2, 3))
     
     if rand_num_2 == 1:
         input = torch.flip(input, dims=[2])

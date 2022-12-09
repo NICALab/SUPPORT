@@ -33,6 +33,8 @@ def train(train_dataloader, model, optimizer, rng, writer, epoch, opt):
         corr_list: list of correlation of each batch ([float])
     """
 
+    is_rotate = True if model.bs_size[0] == model.bs_size[1] else False
+    
     # initialize
     model.train()
     loss_list_l1 = []
@@ -48,7 +50,7 @@ def train(train_dataloader, model, optimizer, rng, writer, epoch, opt):
     for i, data in enumerate(tqdm(train_dataloader)):
 
         (noisy_image, _, ds_idx) = data
-        noisy_image, _ = random_transform(noisy_image, None, rng)
+        noisy_image, _ = random_transform(noisy_image, None, rng, is_rotate)
         
         B, T, X, Y = noisy_image.shape
         noisy_image = noisy_image.cuda()

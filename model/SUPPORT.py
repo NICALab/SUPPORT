@@ -13,7 +13,7 @@ class SUPPORT(nn.Module):
     """
     def __init__(self, in_channels, mid_channels=[16, 32, 64, 128, 256], depth=5,\
          blind_conv_channels=64, one_by_one_channels=[32, 16],\
-            last_layer_channels=[64, 32, 16], bs_size=1):
+            last_layer_channels=[64, 32, 16], bs_size=[1, 1]):
         super(SUPPORT, self).__init__()
 
         # check arguments
@@ -38,6 +38,8 @@ class SUPPORT(nn.Module):
 
         self.last_layer_channels = last_layer_channels
         
+        if type(bs_size) == int:
+            bs_size = [bs_size, bs_size]
         self.bs_size = bs_size
 
         # initialize
@@ -138,9 +140,10 @@ class SUPPORT(nn.Module):
         for d in range(self.depth3x3):
             c_in = 1 if d == 0 else self.blind_conv_channels
             # """
-            pd = pow(2, d)
+            pd = [pow(2, d), pow(2, d)]
             if d == self.depth3x3 - 1:
-                pd = pd + self.bs_size // 2
+                pd[0] = pd[0] + self.bs_size[0] // 2
+                pd[1] = pd[1] + self.bs_size[1] // 2
             # """
             # pd = pow(2, d)*(self.bs_size//2+1)
             blind_conv3x3_layers.append(
@@ -162,9 +165,10 @@ class SUPPORT(nn.Module):
         for d in range(self.depth5x5):
             c_in = 1 if d == 0 else self.blind_conv_channels
             # """
-            pd = pow(3, d)
+            pd = [pow(3, d), pow(3, d)]
             if d == self.depth5x5 - 1: # assume we will use only last layer if the bs_size is larger than 1
-                pd = pd + self.bs_size // 2
+                pd[0] = pd[0] + self.bs_size[0] // 2
+                pd[1] = pd[1] + self.bs_size[1] // 2
             # """
             # pd = (pow(3, d)*(self.bs_size//2+1))
             blind_conv5x5_layers.append(
@@ -173,7 +177,7 @@ class SUPPORT(nn.Module):
                     self.blind_conv_channels,
                     kernel_size=5,
                     stride=1,
-                    padding=pd * 2, # (pow(3, d)*(self.bs_size//2+1)) * 2,
+                    padding=[pd[0] * 2, pd[1] * 2], # pd * 2, # (pow(3, d)*(self.bs_size//2+1)) * 2,
                     bias=True,
                     padding_mode="zeros",
                     dilation=pd, # *(self.bs_size//2+1),
@@ -185,7 +189,7 @@ class SUPPORT(nn.Module):
         # (BS) 1x1 convolutions
         out_convs =[]
         for idx, c in enumerate(self.one_by_one_channels):
-            if self.bs_size == 1:
+            if self.bs_size[0] == 1 and self.bs_size[1] == 1:
                 c_in = (
                     self.blind_conv_channels * (self.depth3x3 + self.depth5x5)
                     if idx == 0
@@ -256,7 +260,7 @@ class SUPPORT(nn.Module):
             if c == 0:
                 x1 = x1 + unet_out1
             
-            if self.bs_size == 1:
+            if self.bs_size[0] == 1 and self.bs_size[1] == 1:
                 hc.append(x1)
             else:
                 if c == self.depth3x3 - 1:
@@ -276,7 +280,7 @@ class SUPPORT(nn.Module):
             if c == 0:
                 x2 = x2 + unet_out2
 
-            if self.bs_size == 1:
+            if self.bs_size[0] == 1 and self.bs_size[1] == 1:
                 hc.append(x2)
             else:
                 if c == self.depth5x5 - 1:
