@@ -35,14 +35,14 @@ For more details, please see the accompanying research publication "[Statistical
 
 :raised_hands: If you have any trouble running the code or have any questions, do not hesitate to make an issue.
 
-:revolving_hearts: We are ready to help you and look forward to make this tool widely used! Also, check the FAQ below can answer your question!
+:revolving_hearts: We are ready to help you and look forward to making this tool widely used! Also, check the FAQ below can answer your question!
 
 
 ## System Requirements
 
 ### Hardware Requirements
 
-`test_GUI` is designed to be run on a standard computer without large RAM. If the GPU is available, denoising process could be accelerated.
+`test_GUI` is designed to be run on a standard computer without large RAM. If the GPU is available, the denoising process could be accelerated.
 
 Starting with (Code) or running `train_GUI` require GPU with enough VRAM.
 
@@ -57,7 +57,7 @@ We tested on the following systems:
 
 ## Installation
 
-It could vary on your network speed, but the installation generally took less than 20 minutes.
+It could vary depending on your network speed, but the installation generally took less than 20 minutes.
 
 1. Clone the repository
 ```
@@ -92,17 +92,17 @@ python -m src.GUI.test_GUI
 As the network is trained on different dataset of denoising,
 for optimal performance, one might have to train the network.
 
-For denoising data with size of (128, 128, 1200), it took about 30 seconds with one RTX 2080 Ti GPU.
+For denoising data with a size of (128, 128, 1200), it took about 30 seconds with one RTX 2080 Ti GPU.
 
 **2. Train the network**
 ```
 python -m src.GUI.train_GUI
 ```
-Choose the folder that contains training data, and then select the blind spot size. After training is done, you can browse newly trained model and use it in train_GUI.
+Choose the folder that contains training data, and then select the blind spot size. After training is done, you can browse the newly trained model and use it in train_GUI.
 
 Representative frame is visualized and updated as training progresses.
 
-Only supports training on GPU, and currently it requires more than 6.5GB GPU memory.
+Only supports training on GPU, and currently it requires more than 6.5GB of GPU memory.
 
 ## Getting Started (code)
 **1. Train SUPPORT**
@@ -116,7 +116,7 @@ For more options, please refer to the manual through the following code.
 python -m src.train --help
 ```
 
-**2. Inferece with SUPPORT**
+**2. Inference with SUPPORT**
 
 After training the network, the trained model will be saved on `results/saved_models/mytest/model_X.pth`, where X is the epoch of training.
 
@@ -128,7 +128,7 @@ It will save the denoised file on `results/images/mytest/denoised_X.tif`.
 
 <div align="center"><img src="data/sample_data.png" width="20%"/><img src="data/denoised_10.png" width="20%"/></div>
 
-Edit `src/test.py` file to change the path to infer with your own data and models.
+Edit `src/test.py` file to change the path to infer with your data and models.
 
 
 
@@ -136,7 +136,7 @@ Edit `src/test.py` file to change the path to infer with your own data and model
 Dataset for volumetric structured imaging of *penicillium* and calcium imaging of larval zebrafish can be downloaded from [Zenodo](https://doi.org/10.5281/zenodo.7330257).
 
 ## Contributors
-We are happy to help any questions or requests.
+We are happy to help with any questions or requests.
 Please contact to following authors to get in touch!
 * Minho Eom (djaalsgh159@kaist.ac.kr)
 * Seungjae Han (jay0118@kaist.ac.kr)
@@ -166,10 +166,10 @@ Eom, M. et al. [Statistically unbiased prediction enables accurate denoising of 
 
 **Q:** Do I need to pad the data?
 
-**A:** You don't have to. The output will have the same dimension to the input data in x and y dimension. However, as we are using past and future *N* frames to obtain denoised current frame, first and final *N* frames of the final output are not be obtained and discarded.
+**A:** You don't have to. The output will have the same dimension as the input data in x and y dimensions. However, as we are using past and future *N* frames to obtain the denoised current frame, the first and final *N* frames of the final output are not obtained and discarded.
 
 **- About GUI**
 
-**Q:** I have a suggestion of UI/function/etc. for train/test GUI. or I found bugs/exception/error. What should I do?
+**Q:** I have a suggestion of UI/function/etc. for train/test GUI. or I found bugs/exceptions/errors. What should I do?
 
-**A:** Make an issue so that we can handle it. If you are familiar to Pytorch and PyQt, pull request would be absolutely fine!
+**A:** Make an issue so that we can handle it. If you are familiar with Pytorch and PyQt, a pull request would be fine!
