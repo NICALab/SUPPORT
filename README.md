@@ -57,7 +57,7 @@ We tested on the following systems:
 
 ## Installation
 
-It could vary depending on your network speed, but the installation generally took less than 20 minutes.
+It could depending on your network speed, but the installation generally took less than 20 minutes.
 
 1. Clone the repository
 ```
