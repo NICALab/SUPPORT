@@ -61,10 +61,11 @@ if __name__ == '__main__':
     patch_size = [61, 128, 128]
     patch_interval = [1, 64, 64]
     batch_size = 128    # lower it if memory exceeds.
+    bs_size = 3    # modify if you changed bs_size when training.
     ##################################################
 
     model = SUPPORT(in_channels=61, mid_channels=[16, 32, 64, 128, 256], depth=5,\
-            blind_conv_channels=64, one_by_one_channels=[32, 16], last_layer_channels=[64, 32, 16], bs_size=3).cuda()
+            blind_conv_channels=64, one_by_one_channels=[32, 16], last_layer_channels=[64, 32, 16], bs_size=bs_size).cuda()
 
     model.load_state_dict(torch.load(model_file))
 
