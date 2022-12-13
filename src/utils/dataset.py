@@ -6,7 +6,7 @@ from torch.utils.data import Dataset, DataLoader
 from src.utils.util import get_coordinate
 
 
-def random_transform(input, target, rng, is_rotate):
+def random_transform(input, target, rng, is_rotate=True):
     """
     Randomly rotate/flip the image
 
