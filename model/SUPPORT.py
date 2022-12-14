@@ -13,7 +13,7 @@ class SUPPORT(nn.Module):
     """
     def __init__(self, in_channels, mid_channels=[16, 32, 64, 128, 256], depth=5,\
          blind_conv_channels=64, one_by_one_channels=[32, 16],\
-            last_layer_channels=[64, 32, 16], bs_size=[1, 1]):
+            last_layer_channels=[64, 32, 16], bs_size=1]):
         super(SUPPORT, self).__init__()
 
         # check arguments
@@ -312,3 +312,68 @@ class SUPPORT(nn.Module):
                 x = layer(x)
         
         return x
+
+
+if __name__ == "__main__":
+
+    import skimage.io as skio
+
+    data = skio.imread("./test_pilhankim.tif")
+    print(data.shape)
+    
+    data[0, 100, 101] = 1000000
+    data[0, 100, 102] = 1000000
+    data[0, 100, 103] = 1000000
+    data[0, 100, 104] = 1000000 # this is horizontal dimension
+
+    import matplotlib.pyplot as plt
+    plt.imshow(data[0, :, :])
+    plt.show()
+
+    
+    def weights_init_normalized(m):
+        classname = m.__class__.__name__
+        # print(classname)
+        if classname.find("Conv2d") != -1:
+            # torch.nn.init.ones_(m.weight)
+            torch.nn.init.constant_(m.weight, 1 / (m.weight.numel() * 1))
+            if m.bias is not None:
+                torch.nn.init.zeros_(m.bias)
+        elif classname.find("ConvHole2D") != -1:
+            # torch.nn.init.ones_(m.weight)
+            torch.nn.init.constant_(m.weight, 1 / ((m.weight.numel() - m.weight.size(0) * m.weight.size(1)) * 1))
+            if m.bias is not None:
+                torch.nn.init.zeros_(m.bias)
+
+
+    model = SUPPORT(in_channels=61, mid_channels=[16, 32, 64, 128, 256], depth=5,\
+         blind_conv_channels=4, one_by_one_channels=[32, 16],\
+                last_layer_channels=[4, 1], bs_size=[1, 3])
+
+    model.apply(weights_init_normalized)
+    
+    print(model)
+
+    import torch
+    a = torch.zeros(1, 61, 128, 128)
+    a[:, 30, 64, 64] = 1000
+    a[:, 30, 64, 65] = 1000
+
+    out = model(a)
+    print(out[0, 0, 64, 64])
+    print(out[0, 0, 64, 65])
+
+    a[:, 30, 63, 64] = 2
+    a[:, 30, 64, 64] = 2
+    a[:, 30, 64, 65] = 2
+    out = model(a)
+    print(out[0, 0, 64, 64])
+    print(out[0, 0, 64, 65])
+
+    import matplotlib.pyplot as plt
+
+    plt.imshow(out[0, 0, :, :].detach().numpy())
+    plt.show()
+
+
+    pass
