@@ -13,7 +13,7 @@ class SUPPORT(nn.Module):
     """
     def __init__(self, in_channels, mid_channels=[16, 32, 64, 128, 256], depth=5,\
          blind_conv_channels=64, one_by_one_channels=[32, 16],\
-            last_layer_channels=[64, 32, 16], bs_size=1):
+            last_layer_channels=[64, 32, 16], bs_size=1, bp=False):
         super(SUPPORT, self).__init__()
 
         # check arguments
@@ -42,6 +42,8 @@ class SUPPORT(nn.Module):
             bs_size = [bs_size, bs_size]
         self.bs_size = bs_size
 
+        self.bp = bp
+
         # initialize
         self.relu = nn.ReLU()
         self.leaky_relu = nn.LeakyReLU()
@@ -49,13 +51,17 @@ class SUPPORT(nn.Module):
         self.upsample_2d = nn.Upsample(scale_factor=2)
 
         self._gen_unet()
-        self._gen_bsnet()
+        if bp is False:        
+            self._gen_bsnet()
         
         # last layer
         last_layers = []
         for idx, c in enumerate(last_layer_channels):
             if idx == 0:
-                last_layers.append(nn.Conv2d(2*one_by_one_channels[-1], c, kernel_size=1, padding=0))
+                if bp is False:
+                    last_layers.append(nn.Conv2d(2*one_by_one_channels[-1], c, kernel_size=1, padding=0))
+                else:
+                    last_layers.append(nn.Conv2d(one_by_one_channels[-1], c, kernel_size=1, padding=0))
             else:
                 last_layers.append(nn.Conv2d(last_layer_channels[idx-1], c, kernel_size=1, padding=0))
         last_layers.append(nn.Conv2d(c, self.out_channels, kernel_size=1, padding=0))
@@ -301,9 +307,12 @@ class SUPPORT(nn.Module):
         bsnet_in = torch.unsqueeze(x[:, self.in_channels//2, :, :], dim=1)
 
         unet_out = self.forward_unet(unet_in)
-        bsnet_out = self.forward_bsnet(bsnet_in, unet_out)
+        if self.bp is False:
+            bsnet_out = self.forward_bsnet(bsnet_in, unet_out)
 
-        x = torch.cat([unet_out, bsnet_out], dim=1)
+            x = torch.cat([unet_out, bsnet_out], dim=1)
+        else:
+            x = unet_out
 
         for idx, layer in enumerate(self.last_layers):
             if idx != len(self.last_layers)-1:
@@ -312,4 +321,5 @@ class SUPPORT(nn.Module):
                 x = layer(x)
         
         return x
+
 
