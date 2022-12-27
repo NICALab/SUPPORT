@@ -81,7 +81,7 @@ channels:
   - conda-forge
  ```
  
-from env.yml and do this step.
+from env.yml and type `conda config --remove channels conda-forge`, and do this step.
 
 #### 4. Activate the conda environment
 ```
