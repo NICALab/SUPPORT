@@ -61,7 +61,7 @@ It could depending on your network speed, but the installation generally took le
 
 1. Clone the repository
 ```
-git clone git@github.com:NICALab/SUPPORT.git
+git clone https://github.com/NICALab/SUPPORT.git
 ```
 
 2. Navigate into the cloned folder
