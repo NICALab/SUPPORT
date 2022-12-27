@@ -59,27 +59,36 @@ We tested on the following systems:
 
 It could depending on your network speed, but the installation generally took less than 20 minutes.
 
-1. Clone the repository
+#### 1. Clone the repository
 ```
 git clone https://github.com/NICALab/SUPPORT.git
 ```
 
-2. Navigate into the cloned folder
+#### 2. Navigate into the cloned folder
 ```
 cd ./SUPPORT
 ```
 
-3. Create the conda environment
+#### 3. Create the conda environment
 ```
 conda env create -f env.yml
 ```
 
-4. Activate the conda environment
+(tip) If the conda stuck at `Solving environment: |`, try removing 
+
+```
+channels:
+  - conda-forge
+ ```
+ 
+from env.yml and do this step.
+
+#### 4. Activate the conda environment
 ```
 conda activate SUPPORT
 ```
 
-5. Install Pytorch with **the version compatible with your OS and platform** from https://pytorch.org/get-started/locally/
+#### 5. Install Pytorch with **the version compatible with your OS and platform** from https://pytorch.org/get-started/locally/
 ```
 conda install pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia
 ```
