@@ -55,13 +55,13 @@ def validate(test_dataloader, model):
 
 if __name__ == '__main__':
     ########## Change it with your data ##############
-    data_file = "./data/sample_data.tif"
-    model_file = "./results/saved_models/mytest/model_0.pth"
-    output_file = "./results/images/mytest/denoised_0.tif"
-    patch_size = [61, 128, 128]
-    patch_interval = [1, 64, 64]
-    batch_size = 128    # lower it if memory exceeds.
-    bs_size = 3    # modify if you changed bs_size when training.
+    data_file = "./data/Xiaohan/sample/cropped2-2.tif"
+    model_file = "./src/GUI/trained_models/bs1.pth" # "./results/saved_models/mytest/model_0.pth"
+    output_file = "./results/xiaohan_denoised_0.tif"
+    patch_size = [61, 64, 64]
+    patch_interval = [1, 32, 32]
+    batch_size = 16    # lower it if memory exceeds.
+    bs_size = 1    # modify if you changed bs_size when training.
     ##################################################
 
     model = SUPPORT(in_channels=61, mid_channels=[16, 32, 64, 128, 256], depth=5,\
@@ -78,4 +78,4 @@ if __name__ == '__main__':
     denoised_stack = validate(testloader, model)
 
     print(denoised_stack.shape)
-    skio.imsave(output_file, denoised_stack[(model.in_channels-1)//2:-(model.in_channels-1)//2, : , :])
+    skio.imsave(output_file, denoised_stack[(model.in_channels-1)//2:-(model.in_channels-1)//2, : , :], metadata={'axes': 'TYX'})

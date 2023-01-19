@@ -149,6 +149,12 @@ class runThread(QThread):
         img_one = None
         img_one_tensor = torch.zeros(61, self.parent.img_w, self.parent.img_h)
 
+        memmap_image = tifffile.memmap(
+            f"{self.parent.save_header}/{metadata}/denoised.tif",
+            shape = self.parent.img_shape,
+            dtype="float32"
+        )
+
         with torch.no_grad():
             (t, _, _) = self.parent.img_shape
             self.parent.model.eval()
@@ -252,7 +258,7 @@ class runThread(QThread):
 
                 if ti == self.parent.actual_start_idx - 1:
                     vmin = np.min(disp_raw)
-                    vmax = np.max(disp_raw)
+                    vmax = np.percentile(disp_raw, q=99) # np.max(disp_raw)
 
                 self.parent.disp_raw = np.clip(
                     1.2 * (disp_raw - vmin) / (vmax - vmin), 0, 1
@@ -264,19 +270,26 @@ class runThread(QThread):
                 self.signal_update_img.emit(1)
                 self.progressbar_update.emit(1)
 
-                if ti == self.parent.actual_start_idx - 1:
-                    tifffile.imwrite(
-                        f"{self.parent.save_header}/{metadata}/denoised.tif",
-                        denoised_frame,
-                        dtype="float32",
-                    )
-                else:
-                    tifffile.imwrite(
-                        f"{self.parent.save_header}/{metadata}/denoised.tif",
-                        denoised_frame,
-                        append=True,
-                        dtype="float32",
-                    )
+                memmap_image[ti, :, :] = denoised_frame
+                
+                # if ti == self.parent.actual_start_idx - 1:
+                    # tifffile.imwrite(
+                    #     f"{self.parent.save_header}/{metadata}/denoised.tif",
+                    #     denoised_frame,
+                    #     dtype="float32",
+                    #     metadata={'axes': 'TYX', 'imagej_metadata': self.parent.imagej_metadata, }
+                    # )
+                # else:
+                    # tifffile.imwrite(
+                    #     f"{self.parent.save_header}/{metadata}/denoised.tif",
+                    #     denoised_frame,
+                    #     append=True,
+                    #     dtype="float32",
+                    #     metadata={'axes': 'TYX', 'imagej_metadata': self.parent.imagej_metadata}
+                    # )
+            
+            memmap_image.flush()
+            del memmap_image
 
     def stop(self):
         self._isRunning = False
@@ -727,6 +740,9 @@ class SUPPORTGUI(QMainWindow):
                 self.Label_image.setText(fname[0])
                 self.img_path = fname[0]
                 tif = TiffFile(fname[0])
+                print(tif)
+                print(vars(tif))
+                self.imagej_metadata = tif.imagej_metadata
                 try:
                     series = tif.series[0]
                     t, w, h = series.shape
