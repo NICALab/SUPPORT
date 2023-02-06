@@ -19,8 +19,8 @@ class SUPPORT(nn.Module):
         # check arguments
         if len(mid_channels) < 2:
             raise Exception("length of mid_channels must be larger than 1")
-        if depth % 2 == 0:
-            raise Exception("depth must be an odd number")
+        # if depth % 2 == 0:
+        #     raise Exception("depth must be an odd number")
         if type(blind_conv_channels) != int:
             raise Exception("type of blind_conv_channels must be an integer")
         if not all([type(i)==int for i in one_by_one_channels]):
@@ -338,3 +338,113 @@ class SUPPORT(nn.Module):
         return x
 
 
+
+
+if __name__ == "__main__":
+    def weights_init_normalized(m):
+        classname = m.__class__.__name__
+        # print(classname)
+        if classname.find("Conv2d") != -1:
+            # torch.nn.init.ones_(m.weight)
+            torch.nn.init.constant_(m.weight, 1 / (m.weight.numel() * 1))
+            if m.bias is not None:
+                torch.nn.init.zeros_(m.bias)
+        elif classname.find("ConvHole2D") != -1:
+            # torch.nn.init.ones_(m.weight)
+            torch.nn.init.constant_(m.weight, 1 / ((m.weight.numel() - m.weight.size(0) * m.weight.size(1)) * 1))
+            if m.bias is not None:
+                torch.nn.init.zeros_(m.bias)
+
+    ch = 61
+
+    model = SUPPORT(in_channels=ch, mid_channels=[16, 32, 64, 128, 256], depth=6,\
+        blind_conv_channels=4, one_by_one_channels=[32, 16],\
+                last_layer_channels=[4, 1], bs_size=[1, 1], bp=True)
+    model.apply(weights_init_normalized)
+
+    import numpy as np
+
+    inp = torch.zeros(1, 61, 2048, 2048)
+    inp[:, 20, 1124, 512] = 100
+    out = model(inp)
+
+    rf = np.ma.log(out.detach().numpy()[0, 0])
+    rf = rf.filled(rf.min())
+
+    import matplotlib.pyplot as plt
+
+    plt.imshow(rf)
+    plt.show()
+
+
+    if False:
+        import skimage.io as skio
+
+        data = skio.imread("./test_pilhankim.tif")
+        print(data.shape)
+        
+        data[0, 100, 101] = 1000000
+        data[0, 100, 102] = 1000000
+        data[0, 100, 103] = 1000000
+        data[0, 100, 104] = 1000000 # this is horizontal dimension
+
+        import matplotlib.pyplot as plt
+        plt.imshow(data[0, :, :])
+        plt.show()
+
+        
+        def weights_init_normalized(m):
+            classname = m.__class__.__name__
+            # print(classname)
+            if classname.find("Conv2d") != -1:
+                # torch.nn.init.ones_(m.weight)
+                torch.nn.init.constant_(m.weight, 1 / (m.weight.numel() * 1))
+                if m.bias is not None:
+                    torch.nn.init.zeros_(m.bias)
+            elif classname.find("ConvHole2D") != -1:
+                # torch.nn.init.ones_(m.weight)
+                torch.nn.init.constant_(m.weight, 1 / ((m.weight.numel() - m.weight.size(0) * m.weight.size(1)) * 1))
+                if m.bias is not None:
+                    torch.nn.init.zeros_(m.bias)
+
+        ch = 1
+
+        model = SUPPORT(in_channels=ch, mid_channels=[16, 32, 64, 128, 256], depth=5,\
+            blind_conv_channels=4, one_by_one_channels=[32, 16],\
+                    last_layer_channels=[4, 1], bs_size=[1, 1], bp=False)
+
+        model.apply(weights_init_normalized)
+        
+        # print(model)
+
+        import torch
+        a = torch.zeros(1, ch, 128, 128)
+        a[:, ch // 2, 64, 64] = 1000
+        a[:, ch // 2, 64, 65] = 1000
+
+        out = model(a)
+        print(out[0, 0, 64, 64])
+        print(out[0, 0, 64, 65])
+
+        a[:, ch // 2, 64, 64] = 1000
+        a[:, ch // 2, 64, 65] = 100000
+        # a[:, ch // 2, 64, 65] = 2
+        out = model(a)
+        print(out[0, 0, 64, 64])
+        print(out[0, 0, 64, 65])
+
+        a[:, ch // 2, 63, 64] = 2
+        a[:, ch // 2, 64, 64] = 2
+        # a[:, ch // 2 + 1, 64, 65] = 2
+        out = model(a)
+        print(out[0, 0, 64, 64])
+        print(out[0, 0, 64, 65])
+        
+
+        import matplotlib.pyplot as plt
+
+        plt.imshow(out[0, 0, :, :].detach().numpy())
+        plt.show()
+
+
+        pass
