@@ -43,6 +43,12 @@ class SUPPORT(nn.Module):
         self.bs_size = bs_size
 
         self.bp = bp
+        if in_channels == 1:
+            self.twod = True
+        else:
+            self.twod = False
+
+        assert not (self.bp and self.twod), "two options cannot be selected in same time."
 
         # initialize
         self.relu = nn.ReLU()
@@ -50,15 +56,16 @@ class SUPPORT(nn.Module):
         self.maxpool_2d = nn.MaxPool2d(kernel_size=2, stride=2)
         self.upsample_2d = nn.Upsample(scale_factor=2)
 
-        self._gen_unet()
-        if bp is False:        
+        if self.twod is False:
+            self._gen_unet()
+        if bp is False:
             self._gen_bsnet()
         
         # last layer
         last_layers = []
         for idx, c in enumerate(last_layer_channels):
             if idx == 0:
-                if bp is False:
+                if bp is False and self.twod is False:
                     last_layers.append(nn.Conv2d(2*one_by_one_channels[-1], c, kernel_size=1, padding=0))
                 else:
                     last_layers.append(nn.Conv2d(one_by_one_channels[-1], c, kernel_size=1, padding=0))
@@ -250,8 +257,10 @@ class SUPPORT(nn.Module):
 
         hc = []
 
-        unet_out1 = self.conv3x3[0](unet_out)
-        unet_out1 = self.conv3x3[1](unet_out1)
+        if unet_out is not None:
+            unet_out1 = self.conv3x3[0](unet_out)
+            unet_out1 = self.conv3x3[1](unet_out1)
+
         for c in range(self.depth3x3):
             if c == 0:
                 x1 = x
@@ -263,7 +272,7 @@ class SUPPORT(nn.Module):
             x1 = self.blind_convs3x3[2 * c](x1)
             x1 = self.blind_convs3x3[2 * c + 1](x1)
 
-            if c == 0:
+            if c == 0 and unet_out is not None:
                 x1 = x1 + unet_out1
             
             if self.bs_size[0] == 1 and self.bs_size[1] == 1:
@@ -272,8 +281,10 @@ class SUPPORT(nn.Module):
                 if c == self.depth3x3 - 1:
                     hc.append(x1)
 
-        unet_out2 = self.conv5x5[0](unet_out)
-        unet_out2 = self.conv5x5[1](unet_out2)
+        if unet_out is not None:
+            unet_out2 = self.conv5x5[0](unet_out)
+            unet_out2 = self.conv5x5[1](unet_out2)
+
         for c in range(self.depth5x5):
             if c == 0:
                 x2 = x
@@ -283,7 +294,7 @@ class SUPPORT(nn.Module):
             x2 = self.blind_convs5x5[2 * c](x2)
             x2 = self.blind_convs5x5[2 * c + 1](x2)
 
-            if c == 0:
+            if c == 0 and unet_out is not None:
                 x2 = x2 + unet_out2
 
             if self.bs_size[0] == 1 and self.bs_size[1] == 1:
@@ -306,13 +317,17 @@ class SUPPORT(nn.Module):
         unet_in = torch.cat([x[:, :self.in_channels//2, :, :], x[:, self.in_channels//2 + 1:, :, :]], dim=1)
         bsnet_in = torch.unsqueeze(x[:, self.in_channels//2, :, :], dim=1)
 
-        unet_out = self.forward_unet(unet_in)
-        if self.bp is False:
+        if self.bp:
+            unet_out = self.forward_unet(unet_in)
+            x = unet_out
+        elif self.twod:
+            unet_out = None
+            x = self.forward_bsnet(bsnet_in, unet_out)
+        else:
+            unet_out = self.forward_unet(unet_in)
             bsnet_out = self.forward_bsnet(bsnet_in, unet_out)
 
             x = torch.cat([unet_out, bsnet_out], dim=1)
-        else:
-            x = unet_out
 
         for idx, layer in enumerate(self.last_layers):
             if idx != len(self.last_layers)-1:
