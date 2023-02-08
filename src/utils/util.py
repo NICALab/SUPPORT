@@ -50,8 +50,6 @@ def parse_arguments():
         raise Exception("input frames must be equal to z-frames of patch_size")
     if len(opt.loss_coef) != 2:
         raise Exception("loss_coef must be length-2 array")
-    if opt.depth % 2 == 0:
-        raise Exception("depth must be an odd number")
 
     if opt.is_folder:
         tmp_root = opt.noisy_data[0]
