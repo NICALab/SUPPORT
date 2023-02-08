@@ -365,7 +365,7 @@ if __name__ == "__main__":
     import numpy as np
 
     inp = torch.zeros(1, 61, 2048, 2048)
-    inp[:, 20, 1124, 512] = 100
+    inp[:, 20, 1024, 1024] = 100
     out = model(inp)
 
     rf = np.ma.log(out.detach().numpy()[0, 0])
