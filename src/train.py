@@ -115,7 +115,7 @@ if __name__=="__main__":
     # ----------
     model = SUPPORT(in_channels=opt.input_frames, mid_channels=opt.unet_channels, depth=opt.depth,\
          blind_conv_channels=opt.blind_conv_channels, one_by_one_channels=opt.one_by_one_channels,\
-                last_layer_channels=opt.last_layer_channels, bs_size=opt.bs_size)
+                last_layer_channels=opt.last_layer_channels, bs_size=opt.bs_size, bp=opt.bp)
 
     optimizer = torch.optim.Adam(model.parameters(), lr=opt.lr)
 
