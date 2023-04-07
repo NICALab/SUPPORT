@@ -26,25 +26,24 @@
 
 ## About SUPPORT
 
-Here we present SUPPORT (**S**tatistically **U**nbiased **P**rediction utilizing s**P**ati**O**tempo**R**al information in imaging da**T**a), **a self-supervised denoising method** for **voltage imaging data**. SUPPORT is based on the insight that a pixel value in voltage imaging data is highly dependent on its spatially neighboring pixels in the same time frame even when its temporally adjacent frames do not provide useful information for statistical prediction. Such spatiotemporal dependency is captured and utilized to accurately denoise voltage imaging data in which the existence of the action potential in a time frame cannot be inferred by the information in other frames. We show, through simulation and experiments, that SUPPORT enables precise denoising of voltage imaging data while preserving the underlying dynamics in the scene. 
+Here, we present SUPPORT (**S**tatistically **U**nbiased **P**rediction utilizing s**P**ati**O**tempo**R**al information in imaging da**T**a), **a self-supervised denoising method** for **voltage imaging data**. SUPPORT is based on the insight that a pixel value in voltage imaging data is highly dependent on its spatially neighboring pixels in the same time frame, even when its temporally adjacent frames do not provide useful information for statistical prediction. Such spatiotemporal dependency is captured and utilized to accurately denoise voltage imaging data in which the existence of the action potential in a time frame cannot be inferred by the information in other frames. We show, through simulations and experiments, that SUPPORT enables precise denoising of voltage imaging data while preserving the underlying dynamics in the scene.
 
-We also show that SUPPORT can be used for denoising **time-lapse fluorescence microscopy images** of Caenorhabditis elegans (C. elegans), in which the imaging speed is not faster than the locomotion of the worm, as well as **static volumetric images** of Penicillium and mouse embryos. SUPPORT is exceptionally compelling for denoising voltage imaging and time-lapse imaging data, and is even effective for denoising **calcium imaging data**.
+We also demonstrate that SUPPORT can be used for denoising **time-lapse fluorescence microscopy images** of Caenorhabditis elegans (C. elegans), in which the imaging speed is not faster than the locomotion of the worm, as well as **static volumetric images** of Penicillium and mouse embryos. SUPPORT is exceptionally compelling for denoising voltage imaging and time-lapse imaging data and is even effective for denoising **calcium imaging data**.
 
-For more details, please see the accompanying research publication "[Statistically unbiased prediction enables accurate denoising of voltage imaging data](https://www.biorxiv.org/content/10.1101/2022.11.17.516709v1)".
+For more details, please see the accompanying research publication titled "[Statistically Unbiased Prediction Enables Accurate Denoising of Voltage Imaging Data](https://www.biorxiv.org/content/10.1101/2022.11.17.516709v1)".
 
+:raised_hands: If you encounter any trouble running the code or have any questions, do not hesitate to create an issue.
 
-:raised_hands: If you have any trouble running the code or have any questions, do not hesitate to make an issue.
-
-:revolving_hearts: We are ready to help you and look forward to making this tool widely used! Also, check the FAQ below can answer your question!
+:revolving_hearts: We are ready to help you and look forward to making this tool widely used! Also, check the FAQ below to see if it answers your question!
 
 
 ## System Requirements
 
 ### Hardware Requirements
 
-`test_GUI` is designed to be run on a standard computer without large RAM. If the GPU is available, the denoising process could be accelerated.
+`test_GUI` is designed to run on a standard computer without requiring a large amount of RAM. If a GPU is available, the denoising process can be accelerated.
 
-Starting with (Code) or running `train_GUI` require GPU with enough VRAM.
+However, starting with the (Code) or running `train_GUI` requires a GPU with sufficient VRAM.
 
 ### Software Requirements
 
@@ -57,7 +56,7 @@ We tested on the following systems:
 
 ## Installation
 
-It could depending on your network speed, but the installation generally took less than 20 minutes.
+The installation time could vary depending on your network speed, but in general, it takes less than 20 minutes.
 
 #### 1. Clone the repository
 ```
