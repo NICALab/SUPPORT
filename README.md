@@ -141,7 +141,7 @@ Edit `src/test.py` file to change the path to infer with your data and models.
 
 
 ## Data availability
-Dataset for volumetric structured imaging of *penicillium* and calcium imaging of larval zebrafish can be downloaded from [Zenodo](https://doi.org/10.5281/zenodo.7330257).
+Dataset for volumetric structured imaging of *penicillium* and calcium imaging of larval zebrafish can be downloaded from [Zenodo](https://zenodo.org/record/8176722).
 
 ## Contributors
 We are happy to help with any questions or requests.
