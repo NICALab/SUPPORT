@@ -14,7 +14,7 @@
 
 <p align="center">
 <a href="https://nicalab.github.io/SUPPORT/" target="_blank">Project page</a> | 
-<a href="https://www.biorxiv.org/content/10.1101/2022.11.17.516709v1" target="_blank">Paper</a> | 
+<a href="https://www.nature.com/articles/s41592-023-02005-8" target="_blank">Paper</a> | 
 <a href="https://doi.org/10.5281/zenodo.7330257" target="_blank">Data</a>
 </p>
 
@@ -30,7 +30,7 @@ Here, we present SUPPORT (**S**tatistically **U**nbiased **P**rediction utilizin
 
 We also demonstrate that SUPPORT can be used for denoising **time-lapse fluorescence microscopy images** of Caenorhabditis elegans (C. elegans), in which the imaging speed is not faster than the locomotion of the worm, as well as **static volumetric images** of Penicillium and mouse embryos. SUPPORT is exceptionally compelling for denoising voltage imaging and time-lapse imaging data and is even effective for denoising **calcium imaging data**.
 
-For more details, please see the accompanying research publication titled "[Statistically Unbiased Prediction Enables Accurate Denoising of Voltage Imaging Data](https://www.biorxiv.org/content/10.1101/2022.11.17.516709v1)".
+For more details, please see the accompanying research publication titled "[Statistically Unbiased Prediction Enables Accurate Denoising of Voltage Imaging Data](https://www.nature.com/articles/s41592-023-02005-8)".
 
 :raised_hands: If you encounter any trouble running the code or have any questions, do not hesitate to create an issue.
 
