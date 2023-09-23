@@ -1,3 +1,7 @@
+#### We welcome discussions and collaborations! Try SUPPORT on your data, or contact us if you encounter any problems!
+#### Not just voltage imaging data, SUPPORT can be used in any functional, volumetric, and timelapse data!
+#### No additional data required, only noisy data itself is just used!
+
 <p align="center">
 <img src="https://github.com/NICALab/SUPPORT/blob/main/logo-1.png" width="120" alt="SUPPORT Logo">
 </p>
@@ -13,15 +17,18 @@
 </p>
 
 <p align="center">
-<a href="https://nicalab.github.io/SUPPORT/" target="_blank">Project page</a> | 
-<a href="https://www.nature.com/articles/s41592-023-02005-8" target="_blank">Paper</a> | 
-<a href="https://doi.org/10.5281/zenodo.7330257" target="_blank">Data</a>
+<a href="https://nicalab.github.io/SUPPORT/" target="_blank"><b>Project page</b></a> | 
+<a href="https://www.nature.com/articles/s41592-023-02005-8" target="_blank"><b>Paper</b></a> | 
+<a href="https://doi.org/10.5281/zenodo.7330257" target="_blank"><b>Data</b></a>
 </p>
 
 
 <p align="center">
 <img src="thumbnail.png" width="80%"/>
 </p>
+
+## News
+- [09/18/2023] Now **SUPPORT** has been published in **_Nature Methods_**! :smile:
 
 
 ## About SUPPORT
@@ -150,18 +157,15 @@ Please contact to following authors to get in touch!
 * Seungjae Han (jay0118@kaist.ac.kr)
 
 ## Citation
-Eom, M. et al. [Statistically unbiased prediction enables accurate denoising of voltage imaging data.](https://www.biorxiv.org/content/10.1101/2022.11.17.516709v1) Preprint at *bioRxiv* (2022).
+Eom, M. et al. [Statistically unbiased prediction enables accurate denoising of voltage imaging data.](https://www.nature.com/articles/s41592-023-02005-8) Preprint at *Nature Methods* (2023).
 ```
-@article {Eom2022SUPPORT,
-	author = {Eom, Minho and Han, Seungjae and Kim, Gyuri and Cho, Eun-Seo and Sim, Jueun and Park, Pojeong and Lee, Kang-Han and Kim, Seonghoon and Rozsa, Marton and Svoboda, Karel and Choi, Myunghwan and Kim, Cheol-Hee and Cohen, Adam and Chang, Jae-Byum and Yoon, Young-Gyu},
-	title = {Statistically unbiased prediction enables accurate denoising of voltage imaging data},
-	elocation-id = {2022.11.17.516709},
-	year = {2022},
-	doi = {10.1101/2022.11.17.516709},
-	publisher = {Cold Spring Harbor Laboratory},
-	URL = {https://www.biorxiv.org/content/early/2022/11/18/2022.11.17.516709},
-	eprint = {https://www.biorxiv.org/content/early/2022/11/18/2022.11.17.516709.full.pdf},
-	journal = {bioRxiv}
+@article{eom2023statistically,
+  title={Statistically unbiased prediction enables accurate denoising of voltage imaging data},
+  author={Eom, Minho and Han, Seungjae and Park, Pojeong and Kim, Gyuri and Cho, Eun-Seo and Sim, Jueun and Lee, Kang-Han and Kim, Seonghoon and Tian, He and B{\"o}hm, Urs L and others},
+  journal={Nature Methods},
+  pages={1--12},
+  year={2023},
+  publisher={Nature Publishing Group US New York}
 }
 ```
 
