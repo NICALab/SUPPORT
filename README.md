@@ -157,7 +157,7 @@ Please contact to following authors to get in touch!
 * Seungjae Han (jay0118@kaist.ac.kr)
 
 ## Citation
-Eom, M. et al. [Statistically unbiased prediction enables accurate denoising of voltage imaging data.](https://www.nature.com/articles/s41592-023-02005-8) Preprint at *Nature Methods* (2023).
+Eom, M. et al. [Statistically unbiased prediction enables accurate denoising of voltage imaging data.](https://www.nature.com/articles/s41592-023-02005-8) *Nature Methods* (2023).
 ```
 @article{eom2023statistically,
   title={Statistically unbiased prediction enables accurate denoising of voltage imaging data},
