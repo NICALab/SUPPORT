@@ -75,9 +75,9 @@ def train(train_dataloader, model, optimizer, rng, writer, epoch, opt):
             loss_mean_l2 = np.mean(np.array(loss_list_l2))
 
             ts = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-            writer.add_scalar("Loss_l1/train_batch", loss_mean, epoch*len(train_dataloader) + i)
-            writer.add_scalar("Loss_l2/train_batch", loss_mean_l1, epoch*len(train_dataloader) + i)
-            writer.add_scalar("Loss/train_batch", loss_mean_l2, epoch*len(train_dataloader) + i)
+            writer.add_scalar("Loss_l1/train_batch", loss_mean_l1, epoch*len(train_dataloader) + i)
+            writer.add_scalar("Loss_l2/train_batch", loss_mean_l2, epoch*len(train_dataloader) + i)
+            writer.add_scalar("Loss/train_batch", loss_mean, epoch*len(train_dataloader) + i)
             
             logging.info(f"[{ts}] Epoch [{epoch}/{opt.n_epochs}] Batch [{i+1}/{len(train_dataloader)}] "+\
                 f"loss : {loss_mean:.4f}, loss_l1 : {loss_mean_l1:.4f}, loss_l2 : {loss_mean_l2:.4f}")
