@@ -26,7 +26,6 @@ import time
 import datetime
 import numpy as np
 from PIL import Image
-from PIL.ImageQt import ImageQt
 from tifffile import TiffFile
 import tifffile
 from src.utils.dataset_pyqt import DatasetSupport_test_stitch
