@@ -27,7 +27,6 @@ import time
 import datetime
 import numpy as np
 from PIL import Image
-from PIL.ImageQt import ImageQt
 from tifffile import TiffFile
 import tifffile
 import skimage.io as skio
