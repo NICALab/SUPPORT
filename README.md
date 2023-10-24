@@ -1,3 +1,5 @@
+*For those who are new to Python or this kind of stuffs, please check the **[step-by-step instructions](https://github.com/NICALab/SUPPORT/blob/main/Beginner_guide.md)**!*
+
 #### We welcome discussions and collaborations! Try SUPPORT on your data, or contact us if you encounter any problems!
 #### Not just voltage imaging data, SUPPORT can be used in any functional, volumetric, and timelapse data!
 #### No additional data required, only noisy data itself is just used!
