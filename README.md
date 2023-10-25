@@ -171,6 +171,12 @@ Eom, M. et al. [Statistically unbiased prediction enables accurate denoising of 
 ```
 
 ## FAQ
+**- General**
+
+**Q:** Which format your program/code accept?
+
+**A:** Currently we accept tiff formats.
+
 **- Running with code**
 
 **Q:** Do I need to normalize the data for training and/or testing?
@@ -180,6 +186,15 @@ Eom, M. et al. [Statistically unbiased prediction enables accurate denoising of 
 **Q:** Do I need to pad the data?
 
 **A:** You don't have to. The output will have the same dimension as the input data in x and y dimensions. However, as we are using past and future *N* frames to obtain the denoised current frame, the first and final *N* frames of the final output are not obtained and discarded.
+
+**Q:** Is it okay to train one model for several tiff stacks, and how can I do it?
+
+**A:** Rather than training different models for "similar" recordings, we may train one SUPPORT model to process them once. There is a `is_folder` option to read all tiff stacks in the directory. For example, you may change like this. 
+```
+python -m src.train --exp_name mytest --noisy_data ./data/sample_data.tif
+--> python -m src.train --exp_name mytest --noisy_data ./data/sample_dataset --is_folder
+```
+
 
 **- About GUI**
 
