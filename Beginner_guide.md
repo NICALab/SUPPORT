@@ -31,6 +31,18 @@ To run graphic-based program, enter the following command: "python -m src.GUI.tr
 
 You can load your noisy image, and then click **Run**!
 
+## Trouble shooting
+
+If you meet the following error,
+```
+Torch not compiled with cuda enabled
+```
+Please follow the steps below.
+
+1. pip uninstall torch
+2. pip cache purge
+3. pip install torch -f https://download.pytorch.org/whl/torch_stable.html
+
 
 ## Notes
 1. Default model does not mean the model we are proud of. It is just for (1) Roughly see how the denoised outcome looks like, (2) Check if there is any problem in program running. The best is, training the SUPPORT model on your own data, and then test it to the same data. Current default model is trained with different data to yours (of course), the performance will not that good.
