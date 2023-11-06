@@ -55,7 +55,7 @@ However, starting with the (Code) or running `train_GUI` requires a GPU with suf
 
 ### Software Requirements
 
-We tested on the following systems:
+This is not requirements, but details of where we have tested on:
 
 - Ubuntu 18.04
 - Python 3.9
