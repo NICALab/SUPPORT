@@ -201,3 +201,10 @@ python -m src.train --exp_name mytest --noisy_data ./data/sample_data.tif
 **Q:** I have a suggestion of UI/function/etc. for train/test GUI. or I found bugs/exceptions/errors. What should I do?
 
 **A:** Make an issue so that we can handle it. If you are familiar with Pytorch and PyQt, a pull request would be fine!
+
+## Star History
+
+If you find our method useful or interesting, please give us star! 🌟
+
+[![Star History Chart](https://api.star-history.com/svg?repos=NICALab/SUPPORT&type=Date)](https://star-history.com/#NICALab/SUPPORT&Date)
+
