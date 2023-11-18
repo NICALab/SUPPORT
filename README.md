@@ -29,7 +29,7 @@
 </p>
 
 ## News
-- [11/16/2023] Presented **SUPPORT** at **_2023 SfN Conference_**. Thanks for your intersest, and glad to hear that you are using SUPPORT well!
+- [11/16/2023] Presented **SUPPORT** at **_SfN Neuroscience 2023_**. Thanks for your intersest, and glad to hear that you are using SUPPORT well!
 - [09/18/2023] Now **SUPPORT** has been published in **_Nature Methods_**! :smile:
 
 
