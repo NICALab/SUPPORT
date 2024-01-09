@@ -27,7 +27,7 @@ def parse_arguments():
     parser.add_argument("--blind_conv_channels", type=int, default=64, help="the number of channels of blind spot convolutions")
     parser.add_argument("--one_by_one_channels", type=int, default=[32, 16], nargs="+", help="the number of channels of 1x1 convolutions")
     parser.add_argument("--last_layer_channels", type=int, default=[64, 32, 16], nargs="+", help="the number of channels of 1x1 convs after UNet")
-    parser.add_argument("--bs_size", type=int, default=[1, 1], nargs="+", help="the size of the blind spot")
+    parser.add_argument("--bs_size", type=int, default=[3, 3], nargs="+", help="the size of the blind spot")
     parser.add_argument("--bp", action="store_true", help="blind plane")
     parser.add_argument("--unet_channels", type=int, default=[16, 32, 64, 128, 256], nargs="+", help="the number of channels of UNet")
 
