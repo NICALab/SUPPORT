@@ -61,7 +61,7 @@ if __name__ == '__main__':
     patch_size = [61, 64, 64]
     patch_interval = [1, 32, 32]
     batch_size = 16    # lower it if memory exceeds.
-    bs_size = 1    # modify if you changed bs_size when training.
+    bs_size = 3    # modify if you changed bs_size when training.
     ##################################################
 
     model = SUPPORT(in_channels=61, mid_channels=[16, 32, 64, 128, 256], depth=5,\
