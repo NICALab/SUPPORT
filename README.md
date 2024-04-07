@@ -196,6 +196,18 @@ python -m src.train --exp_name mytest --noisy_data ./data/sample_data.tif
 --> python -m src.train --exp_name mytest --noisy_data ./data/sample_dataset --is_folder
 ```
 
+**Q:** SUPPORT does not denoise my data effectively. Could you offer any suggestions or help?
+
+**A:** To provide you with the best suggestions tailored to your data, we would appreciate it if you coud provide the following information in your email (It will make us faster to understand the situation and think solutions).
+
+```
+Imaging modality
+Name of (calcium/voltage) indicator
+Frame rate
+GPU&Training time (if you already trained on your own.)
+
+Demo data so that we can take a look (if Possible)
+```
 
 **- About GUI**
 
