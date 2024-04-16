@@ -4,6 +4,8 @@
 #### Not just voltage imaging data, SUPPORT can be used in any functional, volumetric, and timelapse data!
 #### No additional data required, only noisy data itself is just used!
 
+---
+
 <p align="center">
 <img src="https://github.com/NICALab/SUPPORT/blob/main/logo-1.png" width="120" alt="SUPPORT Logo">
 </p>
