@@ -236,6 +236,9 @@ def gen_train_dataloader(patch_size, patch_interval, batch_size, noisy_data_list
 
     for noisy_data in noisy_data_list:
         noisy_image = torch.from_numpy(skio.imread(noisy_data).astype(np.float32)).type(torch.FloatTensor)
+        print(f"Loaded {noisy_data} Shape : {noisy_image.shape}")
+        if len(noisy_image.shape) == 2:
+            noisy_image = noisy_image.unsqueeze(0)
         T, _, _ = noisy_image.shape
         noisy_images_train.append(noisy_image)
 
