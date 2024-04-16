@@ -98,9 +98,9 @@ if __name__ == '__main__':
         elif include_first_and_last == "mirror":
             print(f"Warning. First and Last frame will be \"processed\", this is just workaround, not the ideal solution.")
             demo_tif = torch.cat([
-                    demo_tif[0:(patch_size[0] // 2), :, :].flip(0),
+                    demo_tif[1:(patch_size[0] // 2)+1, :, :].flip(0),
                     demo_tif,
-                    demo_tif[-1 * (patch_size[0] // 2):, :, :].flip(0),
+                    demo_tif[-1 * (patch_size[0] // 2)-1:-1, :, :].flip(0),
                 ])
 
         testset = DatasetSUPPORT_test_stitch(demo_tif, patch_size=patch_size,\
