@@ -52,9 +52,17 @@ def parse_arguments():
         raise Exception("loss_coef must be length-2 array")
 
     if opt.is_folder:
-        tmp_root = opt.noisy_data[0]
-        tmp_files = os.listdir(tmp_root)
-        opt.noisy_data = [os.path.join(tmp_root, i) for i in tmp_files]
+        all_files = []
+
+        for i in opt.noisy_data:
+            all_files += sorted([str(p) for p in Path(i).rglob('*') if p.is_file()])
+
+        opt.noisy_data = all_files
+
+    # print the noisy files
+    print("Noisy files:")
+    for i in opt.noisy_data:
+        print(i)
 
     return opt
 
