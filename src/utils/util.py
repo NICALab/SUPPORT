@@ -2,7 +2,7 @@ import os
 import math
 import argparse
 import numpy as np
-
+from pathlib import Path
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
@@ -16,6 +16,7 @@ def parse_arguments():
     # parser.add_argument("--cuda_device", type=int, default=[0], nargs="+", help="cuda devices to use")
 
     # dataset
+    parser.add_argument("--is_zarr", action="store_true", help="noisy_data is zarr")
     parser.add_argument("--is_folder", action="store_true", help="noisy_data is folder")
     parser.add_argument("--noisy_data", type=str, nargs="+", help="List of path to the noisy data")
     parser.add_argument("--patch_size", type=int, default=[61, 128, 128], nargs="+", help="size of the patches")
@@ -38,11 +39,13 @@ def parse_arguments():
     # util
     parser.add_argument("--use_CPU", action="store_true", help="use CPU")
     parser.add_argument("--n_cpu", type=int, default=8, help="number of cpu threads to use during batch generation")
+    parser.add_argument("--prefetch_factor", type=int, default=2, help="number of batches to prefetch")
     parser.add_argument("--logging_interval_batch", type=int, default=50, help="interval between logging info (in batches)")
     parser.add_argument("--logging_interval", type=int, default=1, help="interval between logging info (in epochs)")
     parser.add_argument("--sample_interval", type=int, default=10, help="interval between saving denoised samples")
     parser.add_argument("--sample_max_t", type=int, default=600, help="maximum time step of saving sample")
     parser.add_argument("--checkpoint_interval", type=int, default=1, help="interval between saving trained models (in epochs)")
+    parser.add_argument("--checkpoint_interval_batch", type=int, default=10000, help="interval between saving trained models (in batches)")
     opt = parser.parse_args()
 
     # argument checking
@@ -51,13 +54,24 @@ def parse_arguments():
     if len(opt.loss_coef) != 2:
         raise Exception("loss_coef must be length-2 array")
 
-    if opt.is_folder:
-        all_files = []
+    if not opt.is_zarr:
+        if opt.is_folder:
+            all_files = []
 
-        for i in opt.noisy_data:
-            all_files += sorted([str(p) for p in Path(i).rglob('*') if p.is_file()])
+            for i in opt.noisy_data:
+                all_files += sorted([str(p) for p in Path(i).rglob('*') if p.is_file()])
 
-        opt.noisy_data = all_files
+            opt.noisy_data = all_files
+    else:
+        if opt.is_folder:
+            all_dirs = []
+            for folder in opt.noisy_data:
+                for root, dirs, files in os.walk(folder):
+                    for d in dirs:
+                        if d.endswith("zarr.dir"):
+                            all_dirs.append(os.path.join(root, d))
+                    dirs[:] = [d for d in dirs if not d.endswith("zarr.dir")]
+            opt.noisy_data = sorted(all_dirs)
 
     # print the noisy files
     print("Noisy files:")

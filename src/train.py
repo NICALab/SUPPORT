@@ -48,12 +48,20 @@ def train(train_dataloader, model, optimizer, rng, writer, epoch, opt):
 
     # training
     for i, data in enumerate(tqdm(train_dataloader)):
+        if opt.is_zarr:
+            (noisy_image, _, ds_idx, noisy_image_avg, noisy_image_std) = data
+            noisy_image_avg = torch.reshape(noisy_image_avg, (-1, 1, 1, 1))
+            noisy_image_std = torch.reshape(noisy_image_std, (-1, 1, 1, 1))
+        else:
+            (noisy_image, _, ds_idx) = data
 
-        (noisy_image, _, ds_idx) = data
-        noisy_image, _ = random_transform(noisy_image, None, rng, is_rotate)
-        
         B, T, X, Y = noisy_image.shape
         noisy_image = noisy_image.cuda()
+        noisy_image, _ = random_transform(noisy_image, None, rng, is_rotate)
+        if opt.is_zarr:
+            noisy_image_avg = noisy_image_avg.cuda()
+            noisy_image_std = noisy_image_std.cuda()
+            noisy_image = (noisy_image - noisy_image_avg) / noisy_image_std
         noisy_image_target = torch.unsqueeze(noisy_image[:, int(T/2), :, :], dim=1)
 
         optimizer.zero_grad()
@@ -81,6 +89,11 @@ def train(train_dataloader, model, optimizer, rng, writer, epoch, opt):
             
             logging.info(f"[{ts}] Epoch [{epoch}/{opt.n_epochs}] Batch [{i+1}/{len(train_dataloader)}] "+\
                 f"loss : {loss_mean:.4f}, loss_l1 : {loss_mean_l1:.4f}, loss_l2 : {loss_mean_l2:.4f}")
+            
+        # save model and optimizer
+        if (opt.checkpoint_interval != -1) and (i % opt.checkpoint_interval_batch == 0):
+            torch.save(model.state_dict(), opt.results_dir + "/saved_models/%s/model_%d_batch_%d.pth" % (opt.exp_name, epoch, i))
+            torch.save(optimizer.state_dict(), opt.results_dir + "/saved_models/%s/optimizer_%d_batch_%d.pth" % (opt.exp_name, epoch, i))
 
     return loss_list, loss_list_l1, loss_list_l2
 
@@ -108,7 +121,7 @@ if __name__=="__main__":
     # Dataset
     # ----------
     dataloader_train = gen_train_dataloader(opt.patch_size, opt.patch_interval, opt.batch_size, \
-        opt.noisy_data)
+        opt.noisy_data, opt, is_zarr=opt.is_zarr)
 
     # ----------
     # Model, Optimizers, and Loss
@@ -131,6 +144,7 @@ if __name__=="__main__":
     # Training & Validation
     # ----------
     for epoch in range(opt.epoch, opt.n_epochs):
+        dataloader_train.dataset.precompute_indices()
         loss_list, loss_list_l1, loss_list_l2 =\
             train(dataloader_train, model, optimizer, rng, writer, epoch, opt)
 
