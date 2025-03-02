@@ -43,8 +43,10 @@ def train(train_dataloader, model, optimizer, rng, writer, epoch, opt):
 
     L1_pixelwise = torch.nn.L1Loss()
     L2_pixelwise = torch.nn.MSELoss()
-
     loss_coef = opt.loss_coef
+
+    # Initialize GradScaler if AMP is enabled
+    scaler = torch.cuda.amp.GradScaler(enabled=opt.use_amp)
 
     # training
     for i, data in enumerate(tqdm(train_dataloader)):
@@ -65,12 +67,17 @@ def train(train_dataloader, model, optimizer, rng, writer, epoch, opt):
         noisy_image_target = torch.unsqueeze(noisy_image[:, int(T/2), :, :], dim=1)
 
         optimizer.zero_grad()
-        noisy_image_denoised = model(noisy_image)
-        loss_l1_pixelwise = L1_pixelwise(noisy_image_denoised, noisy_image_target)
-        loss_l2_pixelwise = L2_pixelwise(noisy_image_denoised, noisy_image_target)
-        loss_sum = loss_coef[0] * loss_l1_pixelwise + loss_coef[1] * loss_l2_pixelwise
-        loss_sum.backward()
-        optimizer.step()
+        # Forward pass wrapped in autocast for AMP
+        with torch.cuda.amp.autocast(enabled=opt.use_amp):
+            noisy_image_denoised = model(noisy_image)
+            loss_l1_pixelwise = L1_pixelwise(noisy_image_denoised, noisy_image_target)
+            loss_l2_pixelwise = L2_pixelwise(noisy_image_denoised, noisy_image_target)
+            loss_sum = loss_coef[0] * loss_l1_pixelwise + loss_coef[1] * loss_l2_pixelwise
+            
+        # Backward pass with GradScaler if AMP is enabled
+        scaler.scale(loss_sum).backward()
+        scaler.step(optimizer)
+        scaler.update()
 
         loss_list_l1.append(loss_l1_pixelwise.item())
         loss_list_l2.append(loss_l2_pixelwise.item())

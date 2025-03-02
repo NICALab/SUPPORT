@@ -37,6 +37,7 @@ def parse_arguments():
     parser.add_argument("--loss_coef", type=float, default=[0.5, 0.5], nargs="+", help="L1/L2 loss coefficients")
 
     # util
+    parser.add_argument("--use_amp", action="store_true", help="Use automatic mixed precision for training")
     parser.add_argument("--use_CPU", action="store_true", help="use CPU")
     parser.add_argument("--n_cpu", type=int, default=8, help="number of cpu threads to use during batch generation")
     parser.add_argument("--prefetch_factor", type=int, default=2, help="number of batches to prefetch")
