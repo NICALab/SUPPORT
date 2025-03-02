@@ -13,7 +13,7 @@ from src.utils.util import parse_arguments
 from model.SUPPORT import SUPPORT
 
 
-def train(train_dataloader, model, optimizer, rng, writer, epoch, opt):
+def train(train_dataloader, model, optimizer, scaler, rng, writer, epoch, opt):
     """
     Train a model for a single epoch
 
@@ -44,9 +44,6 @@ def train(train_dataloader, model, optimizer, rng, writer, epoch, opt):
     L1_pixelwise = torch.nn.L1Loss()
     L2_pixelwise = torch.nn.MSELoss()
     loss_coef = opt.loss_coef
-
-    # Initialize GradScaler if AMP is enabled
-    scaler = torch.cuda.amp.GradScaler(enabled=opt.use_amp)
 
     # training
     for i, data in enumerate(tqdm(train_dataloader)):
@@ -97,10 +94,12 @@ def train(train_dataloader, model, optimizer, rng, writer, epoch, opt):
             logging.info(f"[{ts}] Epoch [{epoch}/{opt.n_epochs}] Batch [{i+1}/{len(train_dataloader)}] "+\
                 f"loss : {loss_mean:.4f}, loss_l1 : {loss_mean_l1:.4f}, loss_l2 : {loss_mean_l2:.4f}")
             
-        # save model and optimizer
+        # save model, optimizer, and scaler
         if (opt.checkpoint_interval != -1) and (i % opt.checkpoint_interval_batch == 0):
             torch.save(model.state_dict(), opt.results_dir + "/saved_models/%s/model_%d_batch_%d.pth" % (opt.exp_name, epoch, i))
             torch.save(optimizer.state_dict(), opt.results_dir + "/saved_models/%s/optimizer_%d_batch_%d.pth" % (opt.exp_name, epoch, i))
+            if opt.use_amp:
+                torch.save(scaler.state_dict(), opt.results_dir + "/saved_models/%s/scaler_%d_batch_%d.pth" % (opt.exp_name, epoch, i))
 
     return loss_list, loss_list_l1, loss_list_l2
 
@@ -139,12 +138,17 @@ if __name__=="__main__":
 
     optimizer = torch.optim.Adam(model.parameters(), lr=opt.lr)
 
+    # Initialize GradScaler if AMP is enabled
+    scaler = torch.cuda.amp.GradScaler(enabled=opt.use_amp)
+
     if cuda:
         model = model.cuda()
     
     if opt.epoch != 0:
         model.load_state_dict(torch.load(opt.results_dir + "/saved_models/%s/model_%d.pth" % (opt.exp_name, opt.epoch-1)))
         optimizer.load_state_dict(torch.load(opt.results_dir + "/saved_models/%s/optimizer_%d.pth" % (opt.exp_name, opt.epoch-1)))
+        if opt.use_amp:
+            scaler.load_state_dict(torch.load(opt.results_dir + "/saved_models/%s/scaler_%d.pth" % (opt.exp_name, opt.epoch-1)))
         print('Loaded pre-trained model and optimizer weights of epoch {}'.format(opt.epoch-1))
 
     # ----------
@@ -153,7 +157,7 @@ if __name__=="__main__":
     for epoch in range(opt.epoch, opt.n_epochs):
         dataloader_train.dataset.precompute_indices()
         loss_list, loss_list_l1, loss_list_l2 =\
-            train(dataloader_train, model, optimizer, rng, writer, epoch, opt)
+            train(dataloader_train, model, optimizer, scaler, rng, writer, epoch, opt)
 
         # logging
         ts = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
@@ -172,6 +176,8 @@ if __name__=="__main__":
         if (opt.checkpoint_interval != -1) and (epoch % opt.checkpoint_interval == 0):
             torch.save(model.state_dict(), opt.results_dir + "/saved_models/%s/model_%d.pth" % (opt.exp_name, epoch))
             torch.save(optimizer.state_dict(), opt.results_dir + "/saved_models/%s/optimizer_%d.pth" % (opt.exp_name, epoch))
+            if opt.use_amp:
+                torch.save(scaler.state_dict(), opt.results_dir + "/saved_models/%s/scaler_%d.pth" % (opt.exp_name, epoch))
 
         # if (epoch % opt.sample_interval == 0):
         #     skio.imsave(opt.results_dir + "/images/%s/denoised_%d.pth" % (opt.exp_name, epoch), )
