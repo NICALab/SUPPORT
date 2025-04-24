@@ -30,7 +30,7 @@ def parse_arguments():
     parser.add_argument("--last_layer_channels", type=int, default=[64, 32, 16], nargs="+", help="the number of channels of 1x1 convs after UNet")
     parser.add_argument("--bs_size", type=int, default=[3, 3], nargs="+", help="the size of the blind spot")
     parser.add_argument("--bp", action="store_true", help="blind plane")
-    parser.add_argument("--unet_channels", type=int, default=[16, 32, 64, 128, 256], nargs="+", help="the number of channels of UNet")
+    parser.add_argument("--unet_channels", type=int, default=[64, 128, 256, 512, 1024], nargs="+", help="the number of channels of UNet")
 
     # training
     parser.add_argument("--lr", type=float, default=5e-4, help="adam: learning rate")
