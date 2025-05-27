@@ -112,8 +112,10 @@ class DatasetSUPPORT(Dataset):
                 self.noisy_images[idx] = noisy_image
                 self.mean_images.append(mean_image)
                 self.std_images.append(std_image)
-                self.mean_images = torch.tensor(self.mean_images)
-                self.std_images = torch.tensor(self.std_images)
+            self.mean_images = torch.tensor(self.mean_images)
+            self.std_images = torch.tensor(self.std_images)
+            print("Normalized noisy images and stored mean/std in memory.")
+            print(f"Mean: {self.mean_images}, Std: {self.std_images}")
 
         # generate index
         self.indices_ds = []
