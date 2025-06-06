@@ -69,9 +69,9 @@ def parse_arguments():
             for folder in opt.noisy_data:
                 for root, dirs, files in os.walk(folder):
                     for d in dirs:
-                        if d.endswith("zarr.dir"):
+                        if d.endswith(".zarr"):
                             all_dirs.append(os.path.join(root, d))
-                    dirs[:] = [d for d in dirs if not d.endswith("zarr.dir")]
+                    dirs[:] = [d for d in dirs if not d.endswith(".zarr")]
             opt.noisy_data = sorted(all_dirs)
 
     # print the noisy files
