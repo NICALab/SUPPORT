@@ -20,7 +20,6 @@
 </p>
 
 <p align="center">
-<a href="https://nicalab.github.io/SUPPORT/" target="_blank"><b>Project page</b></a> | 
 <a href="https://www.nature.com/articles/s41592-023-02005-8" target="_blank"><b>Paper</b></a> | 
 <a href="https://doi.org/10.5281/zenodo.8176722" target="_blank"><b>Data</b></a>
 </p>
